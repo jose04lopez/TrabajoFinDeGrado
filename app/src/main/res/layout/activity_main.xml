@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/off_white"
+    android:layout_height="match_parent">
+
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="54dp"
+        android:dateTextAppearance="@style/CalenderViewWeekCustomText"
+        android:theme="@style/CalenderViewCustom" />
+
+    <Spinner
+        android:id="@+id/spinnerFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calendarView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="142dp"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="151dp"
+        android:entries="@array/filters"
+        android:minHeight="48dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/habitsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinnerFilter"
+        android:layout_marginTop="-1dp"
+        android:layout_marginBottom="60dp" />
+
+    <!-- Fondo gris para los botones inferiores -->
+
+    <!-- Botones superiores -->
+    <LinearLayout
+        android:id="@+id/bottomButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/background_curved_top"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="60dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="@string/today_button_description"
+            android:maxWidth="37dp"
+            android:maxHeight="37dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_today"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <ImageButton
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="@string/add_button_description"
+            android:maxWidth="37dp"
+            android:maxHeight="37dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_add"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <ImageButton
+            android:id="@+id/btnStatistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="20dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="@string/statistics_button_description"
+            android:maxWidth="37dp"
+            android:maxHeight="37dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_statistics"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btnSettings"
+        android:layout_width="35dp"
+        android:layout_height="38dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:contentDescription="@string/settings_button_description"
+        android:maxWidth="37dp"
+        android:maxHeight="37dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_settings"
+        tools:ignore="TouchTargetSizeCheck" />
+
+
+
+</RelativeLayout>
