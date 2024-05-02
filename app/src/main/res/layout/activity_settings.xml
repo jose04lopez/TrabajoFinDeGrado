@@ -24,14 +24,14 @@
             <!-- Título de la página -->
             <TextView
                 android:id="@+id/textView_title"
-                android:layout_width="600px"
-                android:layout_height="120px"
-                android:rotation="180"
+                android:layout_width="wrap_content"
+                android:layout_height="150px"
                 android:layout_centerHorizontal="true"
                 android:layout_marginVertical="20dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/alata"
-                android:text="Configuración"
+                android:rotation="180"
+                android:text="AJUSTES"
                 android:textAlignment="center"
                 android:textSize="27sp" />
         </LinearLayout>
@@ -44,7 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_top_layout"
         android:background="@drawable/rounded_gray_border"
-        android:layout_margin="25dp">
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="25dp">
+
 
         <TextView
             android:id="@+id/textView_user_info"
@@ -64,16 +67,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_user_info"
         android:background="@drawable/rounded_gray_border"
-        android:layout_margin="25dp">
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp">
 
         <Switch
             android:id="@+id/switch_dark_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:switchPadding="25dp"
             android:layout_margin="25dp"
             android:fontFamily="@font/alata"
-            android:text="Modo Oscuro" />
+            android:text="Modo Oscuro"
+            tools:ignore="TouchTargetSizeCheck" />
     </RelativeLayout>
 
     <!-- Notificaciones -->
@@ -83,16 +90,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_dark_mode"
         android:background="@drawable/rounded_gray_border"
-        android:layout_margin="25dp">
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp">
 
         <Switch
             android:id="@+id/switch_notifications"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:switchPadding="25dp"
             android:layout_margin="25dp"
             android:fontFamily="@font/alata"
-            android:text="Habilitar notificaciones" />
+            android:text="Habilitar notificaciones"
+            tools:ignore="TouchTargetSizeCheck" />
     </RelativeLayout>
 
     <!-- Botón para cerrar sesión -->
@@ -102,13 +113,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_notifications"
         android:background="@drawable/rounded_gray_border"
-        android:layout_margin="25dp">
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="15dp">
 
         <TextView
             android:id="@+id/textView_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:textColor="#FF0000"
+            android:textSize="20sp"
             android:layout_margin="25dp"
             android:fontFamily="@font/alata"
             android:text="Cerrar Sesión" />
@@ -121,13 +137,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_logout"
         android:background="@drawable/rounded_gray_border"
-        android:layout_margin="25dp">
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp">
+
 
         <TextView
             android:id="@+id/textView_delete_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:textColor="#FF0000"
+            android:textSize="20sp"
             android:layout_margin="25dp"
             android:fontFamily="@font/alata"
             android:text="Borrar Cuenta" />
@@ -140,7 +160,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_delete_account"
         android:background="@drawable/rounded_gray_border"
-        android:layout_margin="25dp">
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="50dp">
 
         <TextView
             android:id="@+id/textView_help"
@@ -166,6 +188,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
+            android:backgroundTint="@color/green"
+            android:textColor="@color/black"
             android:fontFamily="@font/alata"
             android:text="Guardar Cambios" />
     </RelativeLayout>
