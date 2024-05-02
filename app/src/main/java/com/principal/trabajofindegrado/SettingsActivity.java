@@ -1,11 +1,16 @@
 package com.principal.trabajofindegrado;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -13,6 +18,13 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "canal_id")
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle("Jose es gay")
+                .setContentText("Mucho")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         Switch switchNotifications = findViewById(R.id.switch_notifications);
         RelativeLayout rlHelp = findViewById(R.id.rl_help);
@@ -35,6 +47,17 @@ public class SettingsActivity extends AppCompatActivity {
 
         switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    CharSequence name = "Nombre del canal";
+                    String description = "Descripción del canal";
+                    int importance = NotificationManager.IMPORTANCE_DEFAULT;
+                    NotificationChannel channel = new NotificationChannel("canal_id", name, importance);
+                    channel.setDescription(description);
+                    notificationManager.createNotificationChannel(channel);
+                    notificationManager.notify(1, builder.build());
+                }
+
+
 
             } else {
 
