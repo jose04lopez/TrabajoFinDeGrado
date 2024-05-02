@@ -1,70 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <EditText
-        android:id="@+id/editTextHabitName"
+    <!-- LinearLayout superior -->
+    <RelativeLayout
+        android:id="@+id/rl_top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del hábito"
-        android:minHeight="48dp" />
+        android:layout_alignParentTop="true">
 
-    <Spinner
-        android:id="@+id/spinnerTime"
+        <LinearLayout
+            android:id="@+id/bottomButtonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:rotation="180"
+            android:background="@drawable/background_curved_top"
+            android:gravity="center"
+            android:layout_marginBottom="40px"
+            android:orientation="horizontal">
+
+            <!-- Título de la página -->
+            <TextView
+                android:id="@+id/textView_title"
+                android:layout_width="wrap_content"
+                android:layout_height="150px"
+                android:layout_centerHorizontal="true"
+                android:layout_marginVertical="20dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/alata"
+                android:rotation="180"
+                android:text="HABITOS"
+                android:textAlignment="center"
+                android:textSize="27sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Elementos para mostrar los hábitos y sus dificultades -->
+    <RelativeLayout
+        android:id="@+id/habithelp1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:entries="@array/times" />
+        android:layout_below="@id/rl_top_layout"
+        android:background="@drawable/rounded_gray_border"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="5dp">
 
-    <Button
-        android:id="@+id/buttonAddHabit"
+
+        <TextView
+            android:id="@+id/habithelp1_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="25dp"
+            android:fontFamily="@font/alata"
+            android:text="Ejercicio matutino"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/habithelp1_difficulty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/habithelp1_text"
+            android:layout_marginBottom="25dp"
+            android:layout_centerHorizontal="true"
+            android:text="Dificultad: Fácil"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/habithelp2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Añadir hábito" />
+        android:layout_below="@id/habithelp1"
+        android:background="@drawable/rounded_gray_border"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp">
 
-    <!-- Barra de botones -->
+        <TextView
+            android:id="@+id/habithelp2_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="25dp"
+            android:fontFamily="@font/alata"
+            android:text="Meditación diaria"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/habithelp2_difficulty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/habithelp2_text"
+            android:layout_marginBottom="25dp"
+            android:layout_centerHorizontal="true"
+            android:text="Dificultad: Moderada"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/habithelp3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/habithelp2"
+        android:background="@drawable/rounded_gray_border"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:id="@+id/habithelp3_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="25dp"
+            android:fontFamily="@font/alata"
+            android:text="Lectura nocturna"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/habithelp3_difficulty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/habithelp3_text"
+            android:layout_marginBottom="25dp"
+            android:layout_centerHorizontal="true"
+            android:text="Dificultad: Moderada"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/habithelp4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/habithelp3"
+        android:background="@drawable/rounded_gray_border"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:id="@+id/habithelp4_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="25dp"
+            android:fontFamily="@font/alata"
+            android:text="Beber más agua"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/habithelp4_difficulty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/habithelp4_text"
+            android:layout_marginBottom="25dp"
+            android:layout_centerHorizontal="true"
+            android:text="Dificultad: Fácil"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/habithelp5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/habithelp4"
+        android:background="@drawable/rounded_gray_border"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:id="@+id/habithelp5_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="25dp"
+            android:fontFamily="@font/alata"
+            android:text="Personalizado"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/habithelp5_difficulty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/habithelp5_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="25dp"
+            android:text="Diseña tu hábito"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+
+    <!-- Menú inferior -->
     <LinearLayout
+        android:id="@+id/bottomButtonsLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/background_curved_top"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginTop="16dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="DuplicateIds">
 
         <ImageButton
             android:id="@+id/btnToday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_today"
-            android:background="?attr/selectableItemBackground"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="60dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
             android:contentDescription="@string/today_button_description"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"/>
+            android:maxWidth="37dp"
+            android:maxHeight="37dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_today"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <ImageButton
             android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add"
-            android:background="?attr/selectableItemBackground"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
             android:contentDescription="@string/add_button_description"
-            android:layout_weight="1"
-            android:layout_marginHorizontal="8dp"/>
+            android:maxWidth="37dp"
+            android:maxHeight="37dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_add"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <ImageButton
             android:id="@+id/btnStatistics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_statistics"
-            android:background="?attr/selectableItemBackground"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="20dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
             android:contentDescription="@string/statistics_button_description"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"/>
+            android:maxWidth="37dp"
+            android:maxHeight="37dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_statistics"
+            tools:ignore="TouchTargetSizeCheck" />
 
     </LinearLayout>
 
-</LinearLayout>
-
+</RelativeLayout>

@@ -1,9 +1,11 @@
 package com.principal.trabajofindegrado;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -11,31 +13,35 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AddHabitActivity extends AppCompatActivity {
 
-    private EditText editTextHabitName;
-    private Spinner spinnerTime;
-    private Button buttonAddHabit;
+    private ImageButton btnToday, btnAdd, btnStatistics, btnSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_habit);
 
-        editTextHabitName = findViewById(R.id.editTextHabitName);
-        spinnerTime = findViewById(R.id.spinnerTime);
-        buttonAddHabit = findViewById(R.id.buttonAddHabit);
+        // Referencias a los botones de la barra inferior
+        btnToday = findViewById(R.id.btnToday);
+        btnAdd = findViewById(R.id.btnAdd);
+        btnStatistics = findViewById(R.id.btnStatistics);
 
-        buttonAddHabit.setOnClickListener(new View.OnClickListener() {
+        btnToday.setOnClickListener(v -> {
+            Intent intent = new Intent(AddHabitActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Aquí debes implementar la lógica para añadir el hábito a tu base de datos o almacenamiento.
-                // Por ejemplo, puedes obtener el nombre del hábito y el tiempo seleccionado y guardarlo en tu base de datos.
-                String habitName = editTextHabitName.getText().toString();
-                String time = spinnerTime.getSelectedItem().toString();
-
-                // Luego de guardar el hábito, puedes mostrar un mensaje de éxito.
-                Toast.makeText(AddHabitActivity.this, "Hábito añadido: " + habitName + " - " + time, Toast.LENGTH_SHORT).show();
+                // Lógica para abrir la actividad de añadir hábito
+                // Puedes iniciar una nueva actividad aquí usando un Intent
+                Intent intent = new Intent(AddHabitActivity.this, AddHabitActivity.class);
+                startActivity(intent);
             }
         });
+
+
     }
 }
 
