@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- LinearLayout superior -->
     <RelativeLayout
@@ -113,7 +114,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_notifications"
         android:background="@drawable/rounded_gray_border"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginBottom="15dp">
@@ -162,7 +163,7 @@
         android:background="@drawable/rounded_gray_border"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="30dp">
 
         <TextView
             android:id="@+id/textView_help"
@@ -180,7 +181,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_help"
-        android:layout_margin="25dp">
+        android:layout_margin="20dp">
 
         <Button
             android:id="@+id/button_save"
@@ -193,5 +194,67 @@
             android:fontFamily="@font/alata"
             android:text="Guardar Cambios" />
     </RelativeLayout>
+
+    <!-- Menú inferior -->
+    <LinearLayout
+        android:id="@+id/bottomButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/background_curved_top"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="DuplicateIds">
+
+        <ImageButton
+            android:id="@+id/btnToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="60dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="@string/today_button_description"
+            android:maxWidth="37dp"
+            android:maxHeight="37dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_today"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <ImageButton
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="@string/add_button_description"
+            android:maxWidth="37dp"
+            android:maxHeight="37dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_add"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <ImageButton
+            android:id="@+id/btnStatistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="20dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="@string/statistics_button_description"
+            android:maxWidth="37dp"
+            android:maxHeight="37dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_statistics"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </LinearLayout>
 
 </RelativeLayout>
