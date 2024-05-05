@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
         btnStatistics.setOnClickListener(v -> openStatisticsActivity());
     }
 
+
     // Método para obtener los hábitos de la base de datos y llenar la lista
     private void readHabitsFromDatabase() {
         Cursor cursor = databaseHelper.readAllHabits();

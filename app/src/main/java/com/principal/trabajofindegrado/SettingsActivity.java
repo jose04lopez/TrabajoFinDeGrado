@@ -3,6 +3,7 @@ package com.principal.trabajofindegrado;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
@@ -20,11 +24,72 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        String username = getIntent().getStringExtra("USERNAME");
+
+        TextView userInfoTextView = findViewById(R.id.textView_user_info);
+        TextView logoutTextView = findViewById(R.id.textView_logout);
+        TextView deleteAccountTextView = findViewById(R.id.textView_delete_account);
+
+        userInfoTextView.setText("Nombre de usuario: " + username);
+
+
+        // Agregar un OnClickListener al TextView
+        logoutTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear un Intent para iniciar la LoginActivity
+                Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                // Limpiar la pila de actividades y abrir la LoginActivity
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+
+// Agregar un OnClickListener al TextView
+        deleteAccountTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear un cuadro de diálogo de confirmación
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+                builder.setTitle("Eliminar cuenta");
+                builder.setMessage("¿Estás seguro de que quieres eliminar la cuenta?");
+
+                // Agregar botones de confirmación y cancelación
+                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Obtener el nombre de usuario actual
+                        String username = getIntent().getStringExtra("USERNAME");
+                        // Eliminar la cuenta de usuario de la base de datos
+                        MyDatabaseHelper dbHelper = new MyDatabaseHelper(SettingsActivity.this);
+                        dbHelper.deleteUser(username);
+
+                        // Redirigir a la pantalla de inicio de sesión
+                        Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish(); // Esto evita que el usuario pueda volver atrás con el botón de atrás
+                    }
+                });
+
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // No hacer nada, simplemente cerrar el cuadro de diálogo
+                        dialog.dismiss();
+                    }
+                });
+
+                // Mostrar el cuadro de diálogo
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "canal_id")
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("Jose es gay")
-                .setContentText("Mucho")
+                .setContentTitle("Estado de las notificaciones")
+                .setContentText("Activadas")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         Switch switchNotifications = findViewById(R.id.switch_notifications);
