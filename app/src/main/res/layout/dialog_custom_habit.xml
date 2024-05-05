@@ -28,4 +28,16 @@
         android:layout_height="wrap_content"
         android:entries="@array/difficulty_levels" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Frecuencia:" />
+
+    <Spinner
+        android:id="@+id/spinner_frequency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/frequency_levels" />
+
 </LinearLayout>

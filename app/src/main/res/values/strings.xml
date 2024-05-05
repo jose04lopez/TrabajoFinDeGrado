@@ -18,5 +18,8 @@
     <string name="channel_name">Nombre del canal</string>
     <string name="channel_description">Descripción del canal</string>
     <string name="confirm_add_habit">¿Estás seguro de que quieres añadir el hábito %1$s?</string>
+    <string name="difficulty_label">Dificultad: \u00A0</string>
+    <string name="frequency_label">Frecuencia: \u00A0</string>
+    <string name="start_date_label">Inicio: \u00A0</string>
 
 </resources>

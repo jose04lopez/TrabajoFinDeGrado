@@ -5,4 +5,9 @@
         <item>Intermedio</item>
         <item>Difícil</item>
     </string-array>
+    <string-array name="frequency_levels">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>

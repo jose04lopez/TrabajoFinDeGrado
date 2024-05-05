@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@drawable/rounded_gray_border"
+    android:padding="16dp"
+    android:layout_marginBottom="8dp"> <!-- Añade el margen inferior -->
+
 
     <TextView
         android:id="@+id/txtHabitName"
