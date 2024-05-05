@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,43 +21,52 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
     private CustomAdapter customAdapter;
     private ArrayList<Habit> habitList;
     private MyDatabaseHelper databaseHelper;
+    private String userId, username; // Variable para almacenar el ID del usuario actual
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Inicializar variables y vistas
-        RecyclerView habitsRecyclerView = findViewById(R.id.habitsRecyclerView);
-        habitList = new ArrayList<>();
-        databaseHelper = new MyDatabaseHelper(this);
+        // Recuperar el ID del usuario y usuario de algún lugar
+        userId = getIntent().getStringExtra("USER_ID");
+        username = getIntent().getStringExtra("USERNAME");
 
-        // Leer los hábitos de la base de datos y mostrarlos en el RecyclerView
-        readHabitsFromDatabase();
+        if (userId != null) {
+            // Inicializar variables y vistas
+            RecyclerView habitsRecyclerView = findViewById(R.id.habitsRecyclerView);
+            habitList = new ArrayList<>();
+            databaseHelper = new MyDatabaseHelper(this);
 
-        // Configurar el adaptador para el RecyclerView
-        customAdapter = new CustomAdapter(this, habitList);
-        customAdapter.setOnHabitClickListener(this);
-        habitsRecyclerView.setAdapter(customAdapter);
-        habitsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            // Leer los hábitos de la base de datos y mostrarlos en el RecyclerView
+            readHabitsFromDatabase();
 
-        // Referencias a los botones de la barra inferior
-        ImageButton btnSettings = findViewById(R.id.btnSettings);
-        ImageButton btnToday = findViewById(R.id.btnToday);
-        ImageButton btnAdd = findViewById(R.id.btnAdd);
-        ImageButton btnStatistics = findViewById(R.id.btnStatistics);
+            // Configurar el adaptador para el RecyclerView
+            customAdapter = new CustomAdapter(this, habitList);
+            customAdapter.setOnHabitClickListener(this);
+            habitsRecyclerView.setAdapter(customAdapter);
+            habitsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Agregar escuchadores de clic para los botones
-        btnSettings.setOnClickListener(v -> openSettingsActivity());
-        btnToday.setOnClickListener(v -> restartActivity());
-        btnAdd.setOnClickListener(v -> openAddHabitActivity());
-        btnStatistics.setOnClickListener(v -> openStatisticsActivity());
+            // Referencias a los botones de la barra inferior
+            ImageButton btnSettings = findViewById(R.id.btnSettings);
+            ImageButton btnToday = findViewById(R.id.btnToday);
+            ImageButton btnAdd = findViewById(R.id.btnAdd);
+            ImageButton btnStatistics = findViewById(R.id.btnStatistics);
+
+            // Agregar escuchadores de clic para los botones
+            btnSettings.setOnClickListener(v -> openSettingsActivity());
+            btnToday.setOnClickListener(v -> openMainActivity());
+            btnAdd.setOnClickListener(v -> openAddHabitActivity());
+            btnStatistics.setOnClickListener(v -> openStatisticsActivity());
+        } else {
+            // Si userId es null, puedes manejarlo de alguna manera (por ejemplo, mostrando un mensaje de error)
+            Toast.makeText(this, "Error: No se pudo obtener el ID del usuario", Toast.LENGTH_SHORT).show();
+        }
     }
-
 
     // Método para obtener los hábitos de la base de datos y llenar la lista
     private void readHabitsFromDatabase() {
-        Cursor cursor = databaseHelper.readAllHabits();
+        Cursor cursor = databaseHelper.readAllHabits(userId);
         if (cursor != null && cursor.getCount() > 0) {
             int habitIdIndex = cursor.getColumnIndex("habit_id");
             int habitNameIndex = cursor.getColumnIndex("habit_name");
@@ -85,25 +95,40 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
     // Método para abrir la actividad de ajustes
     private void openSettingsActivity() {
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+
+        intent.putExtra("USERNAME", username);
+        intent.putExtra("USER_ID", userId);
+
         startActivity(intent);
     }
 
     // Método para reiniciar la actividad
-    private void restartActivity() {
+    private void openMainActivity() {
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
+
+        intent.putExtra("USERNAME", username);
+        intent.putExtra("USER_ID", userId);
+
         startActivity(intent);
-        finish();
     }
 
     // Método para abrir la actividad de añadir hábito
     private void openAddHabitActivity() {
         Intent intent = new Intent(MainActivity.this, AddHabitActivity.class);
+
+        intent.putExtra("USERNAME", username);
+        intent.putExtra("USER_ID", userId);
+
         startActivity(intent);
     }
 
     // Método para abrir la actividad de estadísticas
     private void openStatisticsActivity() {
         Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+
+        intent.putExtra("USERNAME", username);
+        intent.putExtra("USER_ID", userId);
+
         startActivity(intent);
     }
 
@@ -121,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
     private void showEditOrDeleteDialog(Habit habit) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(habit.getName());
-        builder.setMessage("Selecciona una opción:");
+        builder.setMessage("Selecciona una opción");
         builder.setPositiveButton("Editar", (dialog, which) -> showEditHabitDialog(habit));
         builder.setNegativeButton("Eliminar", (dialog, which) -> {
             databaseHelper.deleteHabit(String.valueOf(habit.getId()));

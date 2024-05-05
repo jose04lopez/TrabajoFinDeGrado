@@ -25,13 +25,13 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         String username = getIntent().getStringExtra("USERNAME");
+        String userId = getIntent().getStringExtra("USER_ID");
 
         TextView userInfoTextView = findViewById(R.id.textView_user_info);
         TextView logoutTextView = findViewById(R.id.textView_logout);
         TextView deleteAccountTextView = findViewById(R.id.textView_delete_account);
 
         userInfoTextView.setText("Nombre de usuario: " + username);
-
 
         // Agregar un OnClickListener al TextView
         logoutTextView.setOnClickListener(new View.OnClickListener() {
@@ -41,11 +41,12 @@ public class SettingsActivity extends AppCompatActivity {
                 Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                 // Limpiar la pila de actividades y abrir la LoginActivity
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
                 startActivity(intent);
             }
         });
 
-// Agregar un OnClickListener al TextView
+        // Agregar un OnClickListener al TextView
         deleteAccountTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,18 +103,38 @@ public class SettingsActivity extends AppCompatActivity {
 
         rlHelp.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, HelpActivity.class);
+
+            intent.putExtra("USERNAME", username);
+            intent.putExtra("USER_ID", userId);
+
             startActivity(intent);
         });
 
         btnAdd.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, AddHabitActivity.class);
+
+            intent.putExtra("USERNAME", username);
+            intent.putExtra("USER_ID", userId);
+
             startActivity(intent);
         });
 
         btnToday.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+
+            intent.putExtra("USERNAME", username);
+            intent.putExtra("USER_ID", userId);
+
             startActivity(intent);
-            finish();
+        });
+
+        btnStatistics.setOnClickListener(v -> {
+            Intent intent = new Intent(SettingsActivity.this, StatisticsActivity.class);
+
+            intent.putExtra("USERNAME", username);
+            intent.putExtra("USER_ID", userId);
+
+            startActivity(intent);
         });
 
         switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -134,10 +155,18 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public static class HelpActivity extends AppCompatActivity {
+
+        String username;
+        String userId;
+
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_help);
+
+            // Obtener los extras del intent
+            username = getIntent().getStringExtra("USERNAME");
+            userId = getIntent().getStringExtra("USER_ID");
 
             ImageButton btnToday = findViewById(R.id.btnToday);
             ImageButton btnAdd = findViewById(R.id.btnAdd);
@@ -145,16 +174,33 @@ public class SettingsActivity extends AppCompatActivity {
 
             btnToday.setOnClickListener(v -> {
                 Intent intent = new Intent(HelpActivity.this, MainActivity.class);
+
+                intent.putExtra("USERNAME", username); // Pasar el ID del usuario
+                intent.putExtra("USER_ID", userId); // Pasar el ID del usuario
+
                 startActivity(intent);
-                finish();
             });
 
             btnAdd.setOnClickListener(v -> {
                 Intent intent = new Intent(HelpActivity.this, AddHabitActivity.class);
+
+                intent.putExtra("USERNAME", username); // Pasar el ID del usuario
+                intent.putExtra("USER_ID", userId); // Pasar el ID del usuario
+
+                startActivity(intent);
+            });
+
+            btnStatistics.setOnClickListener(v -> {
+                Intent intent = new Intent(HelpActivity.this, StatisticsActivity.class);
+
+                intent.putExtra("USERNAME", username); // Pasar el ID del usuario
+                intent.putExtra("USER_ID", userId); // Pasar el ID del usuario
+
                 startActivity(intent);
             });
         }
     }
+
 
 
 }

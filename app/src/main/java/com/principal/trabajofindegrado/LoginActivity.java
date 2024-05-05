@@ -40,11 +40,15 @@ public class LoginActivity extends AppCompatActivity {
                     // Verificar las credenciales en la base de datos
                     MyDatabaseHelper dbHelper = new MyDatabaseHelper(LoginActivity.this);
                     ValidationResult result = dbHelper.validateCredentials(username, password);
+
                     if (result.isValid()) {
                         // Si las credenciales son válidas, redirigir a MainActivity
                         // After a successful login
-                        Intent intent = new Intent(LoginActivity.this, SettingsActivity.class);
-                        intent.putExtra("USERNAME", username); // Replace "username" with the actual username
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
+                        intent.putExtra("USERNAME", username);
+                        intent.putExtra("USER_ID", result.getUserId());
+
                         startActivity(intent);
                     } else {
                         // Si las credenciales no son válidas, mostrar un mensaje de error

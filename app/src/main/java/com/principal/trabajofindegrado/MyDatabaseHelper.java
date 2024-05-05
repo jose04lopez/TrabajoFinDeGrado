@@ -10,7 +10,7 @@ import android.widget.Toast;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Habits.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // Tabla para los hábitos
     public static final String TABLE_NAME = "Habits";
@@ -20,10 +20,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_FREQUENCY = "frequency";
     private static final String COLUMN_START_DATE = "start_date";
     private static final String COLUMN_COMPLETION_STATUS = "completion_status";
+    private static final String COLUMN_USER_ID = "user_id"; // Nueva columna para la relación con el usuario
 
     // Tabla para los usuarios
     private static final String USER_TABLE_NAME = "Users";
-    private static final String USER_COLUMN_ID = "user_id";
+    public static final String USER_COLUMN_ID = "user_id";
     private static final String USER_COLUMN_USERNAME = "username";
     private static final String USER_COLUMN_PASSWORD = "password";
     private static final String USER_COLUMN_BIRTHDATE = "birthdate";
@@ -35,11 +36,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     // Sentencia SQL para crear la tabla de hábitos
     private static final String CREATE_HABITS_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_USER_ID + " INTEGER NOT NULL, " + // Nueva columna para el ID del usuario
             COLUMN_TITLE + " TEXT NOT NULL, " +
             COLUMN_DIFFICULTY + " TEXT NOT NULL, " +
             COLUMN_FREQUENCY + " INTEGER NOT NULL, " +
             COLUMN_START_DATE + " DATE NOT NULL, " +
-            COLUMN_COMPLETION_STATUS + " INTEGER NOT NULL);";
+            COLUMN_COMPLETION_STATUS + " INTEGER NOT NULL, " +
+            "FOREIGN KEY(" + COLUMN_USER_ID + ") REFERENCES " + USER_TABLE_NAME + "(" + USER_COLUMN_ID + "));";
 
     // Sentencia SQL para crear la tabla de usuarios
     private static final String CREATE_USER_TABLE = "CREATE TABLE " + USER_TABLE_NAME + " (" +
@@ -93,7 +96,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         if (columnIndex != -1) {
             return cursor.getString(columnIndex);
         }
-        return null; // or handle the error accordingly
+        return null;
     }
 
     public String getPassword(Cursor cursor) {
@@ -101,9 +104,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         if (columnIndex != -1) {
             return cursor.getString(columnIndex);
         }
-        return null; // or handle the error accordingly
+        return null;
     }
-
 
     public ValidationResult validateCredentials(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -113,15 +115,23 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(USER_TABLE_NAME, columns, selection, selectionArgs, null, null, null);
         int count = cursor.getCount();
         User user = null;
-        if (count > 0) {
-            cursor.moveToFirst();
-            String dbUsername = getUsername(cursor);
-            String dbPassword = getPassword(cursor);
-            user = new User(dbUsername, dbPassword);
+        String userId = null; // Variable para almacenar el ID del usuario
+        if (count > 0 && cursor.moveToFirst()) {
+            int usernameIndex = cursor.getColumnIndex(USER_COLUMN_USERNAME);
+            int passwordIndex = cursor.getColumnIndex(USER_COLUMN_PASSWORD);
+            int userIdIndex = cursor.getColumnIndex(USER_COLUMN_ID);
+            if (usernameIndex != -1 && passwordIndex != -1 && userIdIndex != -1) {
+                String dbUsername = cursor.getString(usernameIndex);
+                String dbPassword = cursor.getString(passwordIndex);
+                userId = cursor.getString(userIdIndex); // Obtener el ID del usuario
+                user = new User(dbUsername, dbPassword);
+            }
         }
         cursor.close();
-        return new ValidationResult(count > 0, user);
+        return new ValidationResult(count > 0, user, userId);
     }
+
+
 
     public void deleteUser(String username) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -133,27 +143,28 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void addHabit(String name, String difficulty, int frequency, String startDate, boolean completionStatus){
+    public void addHabit(String userId, String name, String difficulty, int frequency, String startDate, boolean completionStatus) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
+        cv.put(COLUMN_USER_ID, userId);
         cv.put(COLUMN_TITLE, name);
         cv.put(COLUMN_DIFFICULTY, difficulty);
         cv.put(COLUMN_FREQUENCY, frequency);
         cv.put(COLUMN_START_DATE, startDate);
-        cv.put(COLUMN_COMPLETION_STATUS, 0); // Establecer por defecto como 0
+        cv.put(COLUMN_COMPLETION_STATUS, completionStatus ? 1 : 0); // Convierte el booleano a un entero
 
-        long result = db.insert(TABLE_NAME,null, cv);
-        if(result == -1){
+        long result = db.insert(TABLE_NAME, null, cv);
+        if (result == -1) {
             Toast.makeText(context, "Error al añadir el hábito", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Hábito añadido correctamente", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public Cursor readAllHabits(){
+    public Cursor readAllHabits(String userId){
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query(TABLE_NAME, null, null, null, null, null, null);
+        return db.query(TABLE_NAME, null, COLUMN_USER_ID + "=?", new String[]{userId}, null, null, null);
     }
 
     public void updateHabit(Habit habit) {
