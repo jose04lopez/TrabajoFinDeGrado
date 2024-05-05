@@ -17,4 +17,6 @@
     <string name="darklight_button_description">Descripción del botón de de darklight</string>
     <string name="channel_name">Nombre del canal</string>
     <string name="channel_description">Descripción del canal</string>
+    <string name="confirm_add_habit">¿Estás seguro de que quieres añadir el hábito %1$s?</string>
+
 </resources>

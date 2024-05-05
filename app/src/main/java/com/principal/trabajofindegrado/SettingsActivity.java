@@ -62,9 +62,6 @@ public class SettingsActivity extends AppCompatActivity {
                     notificationManager.createNotificationChannel(channel);
                     notificationManager.notify(1, builder.build());
                 }
-
-
-
             } else {
 
             }
