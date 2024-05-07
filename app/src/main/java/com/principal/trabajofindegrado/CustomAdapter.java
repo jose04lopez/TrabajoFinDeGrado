@@ -5,9 +5,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
@@ -59,6 +62,52 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         // Set start date with resource string
         holder.txtStartDate.setText(context.getString(R.string.start_date_label) + habit.getStartDate());
 
+        // Set checkboxes visibility based on frequency
+        switch (habit.getFrequency()) {
+            case 1:
+                holder.checkBox1.setVisibility(View.VISIBLE);
+                holder.checkBox2.setVisibility(View.GONE);
+                holder.checkBox3.setVisibility(View.GONE);
+                // Configurar listener de clic para el CheckBox1
+                holder.checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    // Manejar evento de clic del CheckBox1
+                });
+                break;
+            case 2:
+                holder.checkBox1.setVisibility(View.VISIBLE);
+                holder.checkBox2.setVisibility(View.VISIBLE);
+                holder.checkBox3.setVisibility(View.GONE);
+                // Configurar listener de clic para el CheckBox1
+                holder.checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    // Manejar evento de clic del CheckBox1
+                });
+                // Configurar listener de clic para el CheckBox2
+                holder.checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    // Manejar evento de clic del CheckBox2
+                });
+                break;
+            case 3:
+                holder.checkBox1.setVisibility(View.VISIBLE);
+                holder.checkBox2.setVisibility(View.VISIBLE);
+                holder.checkBox3.setVisibility(View.VISIBLE);
+                // Configurar listener de clic para el CheckBox1
+                holder.checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    // Manejar evento de clic del CheckBox1
+                });
+                // Configurar listener de clic para el CheckBox2
+                holder.checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    // Manejar evento de clic del CheckBox2
+                });
+                // Configurar listener de clic para el CheckBox3
+                holder.checkBox3.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    // Manejar evento de clic del CheckBox3
+                });
+                break;
+            default:
+                break;
+        }
+
+
         // Add click listener to the RecyclerView item
         holder.itemView.setOnClickListener(v -> {
             if (onHabitClickListener != null) {
@@ -80,15 +129,19 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         TextView txtDifficulty;
         TextView txtFrequency;
         TextView txtStartDate;
+        CheckBox checkBox1, checkBox2, checkBox3;
 
         // Constructor ViewHolder
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Enlazar los TextView del diseño de elemento con las variables de la clase ViewHolder
+            // Enlazar los TextView y CheckBoxes del diseño de elemento con las variables de la clase ViewHolder
             txtHabitName = itemView.findViewById(R.id.txtHabitName);
             txtDifficulty = itemView.findViewById(R.id.txtDifficulty);
             txtFrequency = itemView.findViewById(R.id.txtFrequency);
             txtStartDate = itemView.findViewById(R.id.txtStartDate);
+            checkBox1 = itemView.findViewById(R.id.checkBox1);
+            checkBox2 = itemView.findViewById(R.id.checkBox2);
+            checkBox3 = itemView.findViewById(R.id.checkBox3);
         }
     }
 }

@@ -98,7 +98,7 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
             android:fontFamily="@font/alata"
-            android:text="Meditación diaria"
+            android:text="Meditación"
             android:textSize="18sp"
             android:textStyle="bold"/>
 
@@ -140,7 +140,7 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
             android:fontFamily="@font/alata"
-            android:text="Lectura nocturna"
+            android:text="Lectura"
             android:textSize="18sp"
             android:textStyle="bold"/>
 
@@ -226,7 +226,7 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
             android:fontFamily="@font/alata"
-            android:text="Estiramiento nocturno"
+            android:text="Estiramiento"
             android:textSize="18sp"
             android:textStyle="bold"/>
 

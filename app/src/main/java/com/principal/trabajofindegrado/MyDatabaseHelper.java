@@ -194,4 +194,49 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "Hábito eliminado correctamente", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void changePassword(String username, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Obtener la contraseña actual del usuario
+        String currentPassword = getPasswordByUsername(username);
+
+        // Verificar si la nueva contraseña es diferente de la contraseña actual
+        if (!newPassword.equals(currentPassword)) {
+            ContentValues cv = new ContentValues();
+            cv.put(USER_COLUMN_PASSWORD, newPassword);
+            int result = db.update(USER_TABLE_NAME, cv, USER_COLUMN_USERNAME + "=?", new String[]{username});
+            if (result == -1) {
+                Toast.makeText(context, "Error al cambiar la contraseña", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Contraseña cambiada correctamente", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            // Mostrar un mensaje de error si la nueva contraseña es igual a la contraseña actual
+            Toast.makeText(context, "La nueva contraseña debe ser diferente de la contraseña actual", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Método para obtener la contraseña actual del usuario
+    public String getPasswordByUsername(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {USER_COLUMN_PASSWORD};
+        String selection = USER_COLUMN_USERNAME + "=?";
+        String[] selectionArgs = {username};
+        Cursor cursor = db.query(USER_TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+        String password = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            int passwordIndex = cursor.getColumnIndex(USER_COLUMN_PASSWORD);
+            if (passwordIndex != -1) {
+                password = cursor.getString(passwordIndex);
+            }
+        }
+        if (cursor != null) {
+            cursor.close();
+        }
+        return password;
+    }
+
+
+
 }

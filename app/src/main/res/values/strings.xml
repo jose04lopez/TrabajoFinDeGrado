@@ -7,8 +7,9 @@
     </string-array>
     <string-array name="filters">
         <item>Todos</item>
-        <item>Con prioridad</item>
-        <item>Sin prioridad</item>
+        <item>Frecuencia 1</item>
+        <item>Frecuencia 2</item>
+        <item>Frecuencia 3</item>
     </string-array>
     <string name="today_button_description">Descripción del botón de hoy</string>
     <string name="add_button_description">Descripción del botón de añadir</string>

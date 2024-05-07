@@ -44,10 +44,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_top_layout"
-        android:background="@drawable/rounded_gray_border"
         android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="25dp">
+        android:background="@drawable/rounded_gray_border">
 
 
         <TextView
@@ -62,84 +62,92 @@
     </RelativeLayout>
 
     <!-- Modo Oscuro -->
-    <RelativeLayout
-        android:id="@+id/rl_dark_mode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rl_user_info"
-        android:background="@drawable/rounded_gray_border"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="15dp">
-
-        <Switch
-            android:id="@+id/switch_dark_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:switchPadding="25dp"
-            android:layout_margin="25dp"
-            android:fontFamily="@font/alata"
-            android:text="Modo Oscuro"
-            tools:ignore="TouchTargetSizeCheck" />
-    </RelativeLayout>
 
     <!-- Notificaciones -->
+
+    <!-- Botón para cerrar sesión -->
+
     <RelativeLayout
         android:id="@+id/rl_notifications"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_dark_mode"
-        android:background="@drawable/rounded_gray_border"
+        android:layout_below="@+id/rl_user_info"
         android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="15dp">
+        android:background="@drawable/rounded_gray_border">
 
         <Switch
             android:id="@+id/switch_notifications"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:switchPadding="25dp"
             android:layout_margin="25dp"
             android:fontFamily="@font/alata"
+            android:switchPadding="25dp"
             android:text="Habilitar notificaciones"
             tools:ignore="TouchTargetSizeCheck" />
     </RelativeLayout>
 
-    <!-- Botón para cerrar sesión -->
+    <!-- Botón para cambiar contraseña -->
+
+    <!-- Botón para borrar cuenta -->
+
+    <RelativeLayout
+        android:id="@+id/rl_change_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_notifications"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/rounded_gray_border">
+
+        <TextView
+            android:id="@+id/textView_change_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="25dp"
+            android:fontFamily="@font/alata"
+            android:text="Cambiar Contraseña"
+            android:textColor="#FF9800"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rl_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_notifications"
-        android:background="@drawable/rounded_gray_border"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/rl_change_password"
         android:layout_marginLeft="25dp"
+        android:layout_marginTop="35dp"
         android:layout_marginRight="25dp"
-        android:layout_marginBottom="15dp">
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/rounded_gray_border">
 
         <TextView
             android:id="@+id/textView_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textColor="#FF0000"
-            android:textSize="20sp"
             android:layout_margin="25dp"
             android:fontFamily="@font/alata"
-            android:text="Cerrar Sesión" />
+            android:text="Cerrar Sesión"
+            android:textColor="#FF0000"
+            android:textSize="20sp" />
     </RelativeLayout>
 
-    <!-- Botón para borrar cuenta -->
     <RelativeLayout
         android:id="@+id/rl_delete_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_logout"
-        android:background="@drawable/rounded_gray_border"
+        android:layout_below="@+id/rl_logout"
         android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/rounded_gray_border">
 
 
         <TextView
@@ -147,11 +155,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textColor="#FF0000"
-            android:textSize="20sp"
             android:layout_margin="25dp"
             android:fontFamily="@font/alata"
-            android:text="Borrar Cuenta" />
+            android:text="Borrar Cuenta"
+            android:textColor="#FF0000"
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <!-- Botón de ayuda -->
@@ -176,24 +184,6 @@
     </RelativeLayout>
 
     <!-- Botón de guardar -->
-    <RelativeLayout
-        android:id="@+id/rl_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rl_help"
-        android:layout_margin="20dp">
-
-        <Button
-            android:id="@+id/button_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/green"
-            android:textColor="@color/black"
-            android:fontFamily="@font/alata"
-            android:text="Guardar Cambios" />
-    </RelativeLayout>
 
     <!-- Menú inferior -->
     <LinearLayout

@@ -8,10 +8,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,13 +27,81 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         String username = getIntent().getStringExtra("USERNAME");
-        String userId = getIntent().getStringExtra("USER_ID");
 
         TextView userInfoTextView = findViewById(R.id.textView_user_info);
         TextView logoutTextView = findViewById(R.id.textView_logout);
         TextView deleteAccountTextView = findViewById(R.id.textView_delete_account);
 
         userInfoTextView.setText("Nombre de usuario: " + username);
+
+        // Agregar un OnClickListener al TextView de Cambiar Contraseña
+        RelativeLayout changePasswordLayout = findViewById(R.id.rl_change_password);
+        changePasswordLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear y mostrar un cuadro de diálogo de alerta
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SettingsActivity.this);
+                alertDialogBuilder.setTitle("Cambiar Contraseña");
+
+                // Inflar el layout personalizado para el cuadro de diálogo
+                View view = getLayoutInflater().inflate(R.layout.dialog_change_password, null);
+                alertDialogBuilder.setView(view);
+
+                // Obtener referencias a los elementos del layout del cuadro de diálogo
+                EditText newPasswordEditText = view.findViewById(R.id.editText_new_password);
+                EditText repeatPasswordEditText = view.findViewById(R.id.editText_repeat_password);
+
+                // Agregar botones de guardado y cancelación al cuadro de diálogo
+                alertDialogBuilder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String newPassword = newPasswordEditText.getText().toString();
+                        String repeatPassword = repeatPasswordEditText.getText().toString();
+
+                        // Verificar si las contraseñas coinciden
+                        if (newPassword.equals(repeatPassword)) {
+                            // Crear una instancia de MyDatabaseHelper
+                            MyDatabaseHelper dbHelper = new MyDatabaseHelper(SettingsActivity.this);
+
+                            // Obtener la contraseña actual del usuario
+                            String currentPassword = dbHelper.getPasswordByUsername(username);
+
+                            // Verificar si la nueva contraseña es diferente de la contraseña actual
+                            if (currentPassword != null && currentPassword.equals(newPassword)) {
+                                // Mostrar un mensaje de error si la nueva contraseña es igual a la contraseña actual
+                                Toast.makeText(SettingsActivity.this, "La nueva contraseña debe ser diferente de la contraseña actual", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // Cambiar la contraseña del usuario
+                                dbHelper.changePassword(username, newPassword);
+
+                                Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish(); // Esto evita que el usuario pueda volver atrás con el botón de atrás
+                            }
+                        } else {
+                            // Mostrar un mensaje de error si las contraseñas no coinciden
+                            Toast.makeText(SettingsActivity.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                });
+
+                alertDialogBuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // No hacer nada, simplemente cerrar el cuadro de diálogo
+                        dialog.dismiss();
+                    }
+                });
+
+                // Mostrar el cuadro de diálogo
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
+        });
+
+
 
         // Agregar un OnClickListener al TextView
         logoutTextView.setOnClickListener(new View.OnClickListener() {
@@ -41,12 +111,12 @@ public class SettingsActivity extends AppCompatActivity {
                 Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                 // Limpiar la pila de actividades y abrir la LoginActivity
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
                 startActivity(intent);
+                finish();
             }
         });
 
-        // Agregar un OnClickListener al TextView
+// Agregar un OnClickListener al TextView
         deleteAccountTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,38 +173,18 @@ public class SettingsActivity extends AppCompatActivity {
 
         rlHelp.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, HelpActivity.class);
-
-            intent.putExtra("USERNAME", username);
-            intent.putExtra("USER_ID", userId);
-
             startActivity(intent);
         });
 
         btnAdd.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, AddHabitActivity.class);
-
-            intent.putExtra("USERNAME", username);
-            intent.putExtra("USER_ID", userId);
-
             startActivity(intent);
         });
 
         btnToday.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-
-            intent.putExtra("USERNAME", username);
-            intent.putExtra("USER_ID", userId);
-
             startActivity(intent);
-        });
-
-        btnStatistics.setOnClickListener(v -> {
-            Intent intent = new Intent(SettingsActivity.this, StatisticsActivity.class);
-
-            intent.putExtra("USERNAME", username);
-            intent.putExtra("USER_ID", userId);
-
-            startActivity(intent);
+            finish();
         });
 
         switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -155,18 +205,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public static class HelpActivity extends AppCompatActivity {
-
-        String username;
-        String userId;
-
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_help);
-
-            // Obtener los extras del intent
-            username = getIntent().getStringExtra("USERNAME");
-            userId = getIntent().getStringExtra("USER_ID");
 
             ImageButton btnToday = findViewById(R.id.btnToday);
             ImageButton btnAdd = findViewById(R.id.btnAdd);
@@ -174,33 +216,16 @@ public class SettingsActivity extends AppCompatActivity {
 
             btnToday.setOnClickListener(v -> {
                 Intent intent = new Intent(HelpActivity.this, MainActivity.class);
-
-                intent.putExtra("USERNAME", username); // Pasar el ID del usuario
-                intent.putExtra("USER_ID", userId); // Pasar el ID del usuario
-
                 startActivity(intent);
+                finish();
             });
 
             btnAdd.setOnClickListener(v -> {
                 Intent intent = new Intent(HelpActivity.this, AddHabitActivity.class);
-
-                intent.putExtra("USERNAME", username); // Pasar el ID del usuario
-                intent.putExtra("USER_ID", userId); // Pasar el ID del usuario
-
-                startActivity(intent);
-            });
-
-            btnStatistics.setOnClickListener(v -> {
-                Intent intent = new Intent(HelpActivity.this, StatisticsActivity.class);
-
-                intent.putExtra("USERNAME", username); // Pasar el ID del usuario
-                intent.putExtra("USER_ID", userId); // Pasar el ID del usuario
-
                 startActivity(intent);
             });
         }
     }
-
 
 
 }

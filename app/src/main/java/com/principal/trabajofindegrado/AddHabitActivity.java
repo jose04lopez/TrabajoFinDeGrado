@@ -72,10 +72,10 @@ public class AddHabitActivity extends AppCompatActivity {
         RelativeLayout habitCustom = findViewById(R.id.habithelp6);
 
         habit1.setOnClickListener(v -> showConfirmationDialog("Ejercicio matutino"));
-        habit2.setOnClickListener(v -> showConfirmationDialog("Meditación diaria"));
-        habit3.setOnClickListener(v -> showConfirmationDialog("Lectura nocturna"));
+        habit2.setOnClickListener(v -> showConfirmationDialog("Meditación"));
+        habit3.setOnClickListener(v -> showConfirmationDialog("Lectura"));
         habit4.setOnClickListener(v -> showConfirmationDialog("Beber más agua"));
-        habit5.setOnClickListener(v -> showConfirmationDialog("Estiramiento nocturno"));
+        habit5.setOnClickListener(v -> showConfirmationDialog("Estiramiento"));
         habitCustom.setOnClickListener(v -> showCustomHabitDialog());
     }
 
@@ -97,12 +97,12 @@ public class AddHabitActivity extends AppCompatActivity {
                             difficultyTextView = selectedHabitLayout.findViewById(R.id.habithelp1_difficulty);
                             frequencyTextView = selectedHabitLayout.findViewById(R.id.habithelp1_frequency);
                             break;
-                        case "Meditación diaria":
+                        case "Meditación":
                             selectedHabitLayout = findViewById(R.id.habithelp2);
                             difficultyTextView = selectedHabitLayout.findViewById(R.id.habithelp2_difficulty);
                             frequencyTextView = selectedHabitLayout.findViewById(R.id.habithelp2_frequency);
                             break;
-                        case "Lectura nocturna":
+                        case "Lectura":
                             selectedHabitLayout = findViewById(R.id.habithelp3);
                             difficultyTextView = selectedHabitLayout.findViewById(R.id.habithelp3_difficulty);
                             frequencyTextView = selectedHabitLayout.findViewById(R.id.habithelp3_frequency);
@@ -112,7 +112,7 @@ public class AddHabitActivity extends AppCompatActivity {
                             difficultyTextView = selectedHabitLayout.findViewById(R.id.habithelp4_difficulty);
                             frequencyTextView = selectedHabitLayout.findViewById(R.id.habithelp4_frequency);
                             break;
-                        case "Estiramiento nocturno":
+                        case "Estiramiento":
                             selectedHabitLayout = findViewById(R.id.habithelp5);
                             difficultyTextView = selectedHabitLayout.findViewById(R.id.habithelp5_difficulty);
                             frequencyTextView = selectedHabitLayout.findViewById(R.id.habithelp5_frequency);
