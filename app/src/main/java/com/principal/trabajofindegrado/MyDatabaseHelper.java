@@ -10,7 +10,7 @@ import android.widget.Toast;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Habits.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     // Tabla para los hábitos
     public static final String TABLE_NAME = "Habits";
@@ -19,8 +19,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_DIFFICULTY = "difficulty";
     private static final String COLUMN_FREQUENCY = "frequency";
     private static final String COLUMN_START_DATE = "start_date";
-    private static final String COLUMN_COMPLETION_STATUS = "completion_status";
-    private static final String COLUMN_USER_ID = "user_id"; // Nueva columna para la relación con el usuario
+    private static final String COLUMN_USER_ID = "user_id";
+    private static final String COLUMN_CHECKBOX1 = "checkbox1_status";
+    private static final String COLUMN_CHECKBOX2 = "checkbox2_status";
+    private static final String COLUMN_CHECKBOX3 = "checkbox3_status";
 
     // Tabla para los usuarios
     private static final String USER_TABLE_NAME = "Users";
@@ -41,7 +43,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             COLUMN_DIFFICULTY + " TEXT NOT NULL, " +
             COLUMN_FREQUENCY + " INTEGER NOT NULL, " +
             COLUMN_START_DATE + " DATE NOT NULL, " +
-            COLUMN_COMPLETION_STATUS + " INTEGER NOT NULL, " +
+            COLUMN_CHECKBOX1 + " INTEGER NOT NULL DEFAULT 0, " + // Nuevo checkbox 1
+            COLUMN_CHECKBOX2 + " INTEGER NOT NULL DEFAULT 0, " + // Nuevo checkbox 2
+            COLUMN_CHECKBOX3 + " INTEGER NOT NULL DEFAULT 0, " + // Nuevo checkbox 3
             "FOREIGN KEY(" + COLUMN_USER_ID + ") REFERENCES " + USER_TABLE_NAME + "(" + USER_COLUMN_ID + "));";
 
     // Sentencia SQL para crear la tabla de usuarios
@@ -143,7 +147,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void addHabit(String userId, String name, String difficulty, int frequency, String startDate, boolean completionStatus) {
+    public void addHabit(String userId, String name, String difficulty, int frequency, String startDate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -152,7 +156,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_DIFFICULTY, difficulty);
         cv.put(COLUMN_FREQUENCY, frequency);
         cv.put(COLUMN_START_DATE, startDate);
-        cv.put(COLUMN_COMPLETION_STATUS, completionStatus ? 1 : 0); // Convierte el booleano a un entero
+        cv.put(COLUMN_CHECKBOX1, 0); // Valor predeterminado del checkbox 1
+        cv.put(COLUMN_CHECKBOX2, 0); // Valor predeterminado del checkbox 2
+        cv.put(COLUMN_CHECKBOX3, 0); // Valor predeterminado del checkbox 3
 
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
@@ -161,6 +167,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "Hábito añadido correctamente", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     public Cursor readAllHabits(String userId){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -175,7 +182,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_DIFFICULTY, habit.getDifficulty());
         cv.put(COLUMN_FREQUENCY, habit.getFrequency());
         cv.put(COLUMN_START_DATE, habit.getStartDate());
-        cv.put(COLUMN_COMPLETION_STATUS, habit.isCompletionStatus() ? 1 : 0);
 
         int result = db.update(TABLE_NAME, cv, COLUMN_ID + "=?", new String[]{String.valueOf(habit.getId())});
         if(result == -1){
@@ -237,6 +243,48 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return password;
     }
 
+    // Método para actualizar el estado de un checkbox en la base de datos
+    public void updateCheckboxStatus(int habitId, int checkboxNumber, int status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        String columnToUpdate;
+        switch (checkboxNumber) {
+            case 1:
+                columnToUpdate = COLUMN_CHECKBOX1;
+                break;
+            case 2:
+                columnToUpdate = COLUMN_CHECKBOX2;
+                break;
+            case 3:
+                columnToUpdate = COLUMN_CHECKBOX3;
+                break;
+            default:
+                // Si el número de checkbox es inválido, no hacer nada
+                return;
+        }
+
+        cv.put(columnToUpdate, status);
+        int result = db.update(TABLE_NAME, cv, COLUMN_ID + "=?", new String[]{String.valueOf(habitId)});
+        if (result == -1) {
+            Toast.makeText(context, "Error al actualizar el estado del checkbox", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Método para reiniciar el estado de los checkboxes
+    public void resetCheckboxStatus() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_CHECKBOX1, 0); // Reiniciar el estado del checkbox 1
+        cv.put(COLUMN_CHECKBOX2, 0); // Reiniciar el estado del checkbox 2
+        cv.put(COLUMN_CHECKBOX3, 0); // Reiniciar el estado del checkbox 3
+        int result = db.update(TABLE_NAME, cv, null, null);
+        if (result == -1) {
+            Toast.makeText(context, "Error al reiniciar el estado de los checkboxes", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Estado de los checkboxes reiniciado correctamente", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
 }

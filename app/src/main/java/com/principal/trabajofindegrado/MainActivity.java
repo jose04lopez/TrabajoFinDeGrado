@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements CustomAdapter.OnHabitClickListener {
 
@@ -38,12 +39,16 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
             habitList = new ArrayList<>();
             databaseHelper = new MyDatabaseHelper(this);
 
+            // Reiniciar el estado de los checkboxes a medianoche
+            resetCheckboxStatusAtMidnight();
+
             // Leer los hábitos de la base de datos y mostrarlos en el RecyclerView
             readHabitsFromDatabase();
 
             // Configurar el adaptador para el RecyclerView
             customAdapter = new CustomAdapter(this, habitList);
             customAdapter.setOnHabitClickListener(this);
+            customAdapter.setDatabaseHelper(databaseHelper); // Establecer la referencia a databaseHelper
             habitsRecyclerView.setAdapter(customAdapter);
             habitsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -73,7 +78,9 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
             int difficultyIndex = cursor.getColumnIndex("difficulty");
             int frequencyIndex = cursor.getColumnIndex("frequency");
             int startDateIndex = cursor.getColumnIndex("start_date");
-            int completionStatusIndex = cursor.getColumnIndex("completion_status");
+            int checkbox1Index = cursor.getColumnIndex("checkbox1_status");
+            int checkbox2Index = cursor.getColumnIndex("checkbox2_status");
+            int checkbox3Index = cursor.getColumnIndex("checkbox3_status");
 
             while (cursor.moveToNext()) {
                 int habitId = cursor.getInt(habitIdIndex);
@@ -81,9 +88,14 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
                 String difficulty = cursor.getString(difficultyIndex);
                 int frequency = cursor.getInt(frequencyIndex);
                 String startDate = cursor.getString(startDateIndex);
-                boolean completionStatus = cursor.getInt(completionStatusIndex) == 1;
+                int checkbox1Status = cursor.getInt(checkbox1Index) == 1 ? 1 : 0;
+                int checkbox2Status = cursor.getInt(checkbox2Index) == 1 ? 1 : 0;
+                int checkbox3Status = cursor.getInt(checkbox3Index) == 1 ? 1 : 0;
 
-                Habit habit = new Habit(habitId, habitName, difficulty, frequency, startDate, completionStatus);
+                Habit habit = new Habit(habitId, habitName, difficulty, frequency, startDate);
+                habit.setCheckbox1Status(checkbox1Status);
+                habit.setCheckbox2Status(checkbox2Status);
+                habit.setCheckbox3Status(checkbox3Status);
                 habitList.add(habit);
             }
         }
@@ -192,5 +204,16 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
         builder.create().show();
     }
 
+    // Método para reiniciar el estado de los checkboxes a medianoche
+    private void resetCheckboxStatusAtMidnight() {
+        Calendar now = Calendar.getInstance();
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        int minute = now.get(Calendar.MINUTE);
+        int second = now.get(Calendar.SECOND);
 
+        // Si es medianoche, reiniciar el estado de los checkboxes
+        if (hour == 0 && minute == 0 && second == 0) {
+            databaseHelper.resetCheckboxStatus();
+        }
+    }
 }

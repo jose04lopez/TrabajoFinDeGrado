@@ -124,8 +124,7 @@ public class AddHabitActivity extends AppCompatActivity {
                     if (difficultyTextView != null && frequencyTextView != null) {
                         String difficulty = difficultyTextView.getText().toString().replace("Dificultad: ", "");
                         int frequency = Integer.parseInt(frequencyTextView.getText().toString().replace("Frecuencia: ", ""));
-                        boolean completionStatus = false;
-                        databaseHelper.addHabit(userId, habitName, difficulty, frequency, getCurrentDate(), completionStatus);
+                        databaseHelper.addHabit(userId, habitName, difficulty, frequency, getCurrentDate());
 
                     } else {
                         Toast.makeText(AddHabitActivity.this, "Error: Hábito no encontrado", Toast.LENGTH_SHORT).show();
@@ -151,7 +150,7 @@ public class AddHabitActivity extends AppCompatActivity {
                     String habitName = habitNameEditText.getText().toString();
                     String difficulty = difficultySpinner.getSelectedItem().toString();
                     int frequency = frequencySpinner.getSelectedItemPosition() + 1;
-                    databaseHelper.addHabit(userId, habitName, difficulty, frequency, getCurrentDate(), false);
+                    databaseHelper.addHabit(userId, habitName, difficulty, frequency, getCurrentDate());
                 })
                 .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 

@@ -1,12 +1,19 @@
+// SettingsActivity.java
+
 package com.principal.trabajofindegrado;
 
+import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -17,16 +24,32 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import java.util.Calendar;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    private SharedPreferences sharedPreferences;
+    private boolean isNotificationEnabled = false;
+    private PendingIntent pendingIntent;
+    private String userId, username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        String username = getIntent().getStringExtra("USERNAME");
+        // Obtener la referencia de SharedPreferences
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // Obtener el estado del interruptor de notificaciones de SharedPreferences
+        isNotificationEnabled = sharedPreferences.getBoolean("notification_enabled", false);
+
+        username = getIntent().getStringExtra("USERNAME");
+        userId = getIntent().getStringExtra("USER_ID");
 
         TextView userInfoTextView = findViewById(R.id.textView_user_info);
         TextView logoutTextView = findViewById(R.id.textView_logout);
@@ -101,8 +124,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-
-
         // Agregar un OnClickListener al TextView
         logoutTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +137,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-// Agregar un OnClickListener al TextView
+        // Agregar un OnClickListener al TextView
         deleteAccountTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,51 +185,138 @@ public class SettingsActivity extends AppCompatActivity {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         Switch switchNotifications = findViewById(R.id.switch_notifications);
+        switchNotifications.setChecked(isNotificationEnabled);
+
+        switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                scheduleNotification();
+            } else {
+                cancelNotification();
+            }
+
+            // Guardar el estado del interruptor de notificaciones en SharedPreferences
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("notification_enabled", isChecked);
+            editor.apply();
+        });
+
         RelativeLayout rlHelp = findViewById(R.id.rl_help);
         ImageButton btnToday = findViewById(R.id.btnToday);
         ImageButton btnAdd = findViewById(R.id.btnAdd);
         ImageButton btnStatistics = findViewById(R.id.btnStatistics);
 
-
-
         rlHelp.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, HelpActivity.class);
-            startActivity(intent);
-        });
 
-        btnAdd.setOnClickListener(v -> {
-            Intent intent = new Intent(SettingsActivity.this, AddHabitActivity.class);
+            intent.putExtra("USERNAME", username);
+            intent.putExtra("USER_ID", userId);
+
             startActivity(intent);
         });
 
         btnToday.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+
+            intent.putExtra("USERNAME", username);
+            intent.putExtra("USER_ID", userId);
+
             startActivity(intent);
-            finish();
         });
 
-        switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    CharSequence name = "Nombre del canal";
-                    String description = "Descripción del canal";
-                    int importance = NotificationManager.IMPORTANCE_DEFAULT;
-                    NotificationChannel channel = new NotificationChannel("canal_id", name, importance);
-                    channel.setDescription(description);
-                    notificationManager.createNotificationChannel(channel);
-                    notificationManager.notify(1, builder.build());
-                }
-            } else {
+        btnAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(SettingsActivity.this, AddHabitActivity.class);
 
-            }
+            intent.putExtra("USERNAME", username);
+            intent.putExtra("USER_ID", userId);
+
+            startActivity(intent);
+        });
+
+        btnStatistics.setOnClickListener(v -> {
+            Intent intent = new Intent(SettingsActivity.this, StatisticsActivity.class);
+
+            intent.putExtra("USERNAME", username);
+            intent.putExtra("USER_ID", userId);
+
+            startActivity(intent);
         });
     }
 
-    public static class HelpActivity extends AppCompatActivity {
+    private void scheduleNotification() {
+        Intent notificationIntent = new Intent(this, SettingsActivity.class);
+
+        // Agrega el flag FLAG_IMMUTABLE o FLAG_MUTABLE dependiendo de la versión de Android
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;
+        }
+
+        pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, flags);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        // Crear y mostrar la notificación
+        createNotificationChannel();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "canal_id")
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle("Título de la notificación")
+                .setContentText("Tu mensaje de notificación")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        notificationManager.notify(1, builder.build());
+    }
+
+    private void cancelNotification() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if (pendingIntent != null) {
+            alarmManager.cancel(pendingIntent);
+        }
+    }
+
+    // Método para crear el canal de notificación (solo para versiones de Android posteriores a 8.0)
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Nombre del canal";
+            String description = "Descripción del canal";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("canal_id", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+
+public static class HelpActivity extends AppCompatActivity {
+
+        private String userId, username;
+
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_help);
+
+            username = getIntent().getStringExtra("USERNAME");
+            userId = getIntent().getStringExtra("USER_ID");
 
             ImageButton btnToday = findViewById(R.id.btnToday);
             ImageButton btnAdd = findViewById(R.id.btnAdd);
@@ -216,16 +324,30 @@ public class SettingsActivity extends AppCompatActivity {
 
             btnToday.setOnClickListener(v -> {
                 Intent intent = new Intent(HelpActivity.this, MainActivity.class);
+
+                intent.putExtra("USERNAME", username);
+                intent.putExtra("USER_ID", userId);
+
                 startActivity(intent);
-                finish();
             });
 
             btnAdd.setOnClickListener(v -> {
                 Intent intent = new Intent(HelpActivity.this, AddHabitActivity.class);
+
+                intent.putExtra("USERNAME", username);
+                intent.putExtra("USER_ID", userId);
+
+                startActivity(intent);
+            });
+
+            btnStatistics.setOnClickListener(v -> {
+                Intent intent = new Intent(HelpActivity.this, StatisticsActivity.class);
+
+                intent.putExtra("USERNAME", username);
+                intent.putExtra("USER_ID", userId);
+
                 startActivity(intent);
             });
         }
     }
-
-
 }

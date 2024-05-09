@@ -1,12 +1,13 @@
 package com.principal.trabajofindegrado;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private final Context context;
     private final ArrayList<Habit> habitList;
     private OnHabitClickListener onHabitClickListener;
+    private MyDatabaseHelper databaseHelper;
 
     // Constructor del adaptador
     public CustomAdapter(Context context, ArrayList<Habit> habitList) {
@@ -35,6 +37,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         this.onHabitClickListener = listener;
     }
 
+    // Método para establecer el helper de la base de datos
+    public void setDatabaseHelper(MyDatabaseHelper databaseHelper) {
+        this.databaseHelper = databaseHelper;
+    }
+
     // Método llamado cuando se crea un nuevo ViewHolder
     @NonNull
     @Override
@@ -45,9 +52,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     }
 
     // Método llamado cuando se actualiza el contenido de un ViewHolder
-    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Habit habit = habitList.get(position);
 
         // Set habit name
@@ -68,45 +74,62 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 holder.checkBox1.setVisibility(View.VISIBLE);
                 holder.checkBox2.setVisibility(View.GONE);
                 holder.checkBox3.setVisibility(View.GONE);
-                // Configurar listener de clic para el CheckBox1
+                holder.checkBox1.setChecked(habit.getCheckbox1Status() == 1);
+                // Agregar lógica para verificar y mostrar Toast si todos los CheckBox están marcados
                 holder.checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    // Manejar evento de clic del CheckBox1
+                    habit.setCheckbox1Status(isChecked ? 1 : 0);
+                    databaseHelper.updateCheckboxStatus(habit.getId(), 1, isChecked ? 1 : 0);
+                    checkAndShowToastIfOnlyCheckBox1Checked(holder.checkBox1);
                 });
                 break;
             case 2:
                 holder.checkBox1.setVisibility(View.VISIBLE);
                 holder.checkBox2.setVisibility(View.VISIBLE);
                 holder.checkBox3.setVisibility(View.GONE);
-                // Configurar listener de clic para el CheckBox1
+                holder.checkBox1.setChecked(habit.getCheckbox1Status() == 1);
+                holder.checkBox2.setChecked(habit.getCheckbox2Status() == 1);
+                // Agregar lógica para verificar y mostrar Toast si todos los CheckBox están marcados
                 holder.checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    // Manejar evento de clic del CheckBox1
+                    habit.setCheckbox1Status(isChecked ? 1 : 0);
+                    databaseHelper.updateCheckboxStatus(habit.getId(), 1, isChecked ? 1 : 0);
+                    checkAndShowToastIfBothCheckBox1AndCheckBox2Checked(holder.checkBox1, holder.checkBox2);
                 });
-                // Configurar listener de clic para el CheckBox2
+
                 holder.checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    // Manejar evento de clic del CheckBox2
+                    habit.setCheckbox2Status(isChecked ? 1 : 0);
+                    databaseHelper.updateCheckboxStatus(habit.getId(), 2, isChecked ? 1 : 0);
+                    checkAndShowToastIfAllChecked(holder.checkBox1, holder.checkBox2, holder.checkBox3);
                 });
                 break;
             case 3:
                 holder.checkBox1.setVisibility(View.VISIBLE);
                 holder.checkBox2.setVisibility(View.VISIBLE);
                 holder.checkBox3.setVisibility(View.VISIBLE);
-                // Configurar listener de clic para el CheckBox1
+                holder.checkBox1.setChecked(habit.getCheckbox1Status() == 1);
+                holder.checkBox2.setChecked(habit.getCheckbox2Status() == 1);
+                holder.checkBox3.setChecked(habit.getCheckbox3Status() == 1);
+                // Agregar lógica para mostrar Toast cuando los tres CheckBox estén marcados
                 holder.checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    // Manejar evento de clic del CheckBox1
+                    habit.setCheckbox1Status(isChecked ? 1 : 0);
+                    databaseHelper.updateCheckboxStatus(habit.getId(), 1, isChecked ? 1 : 0);
+                    checkAndShowToastIfAllChecked(holder.checkBox1, holder.checkBox2, holder.checkBox3);
                 });
-                // Configurar listener de clic para el CheckBox2
+
                 holder.checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    // Manejar evento de clic del CheckBox2
+                    habit.setCheckbox2Status(isChecked ? 1 : 0);
+                    databaseHelper.updateCheckboxStatus(habit.getId(), 2, isChecked ? 1 : 0);
+                    checkAndShowToastIfAllChecked(holder.checkBox1, holder.checkBox2, holder.checkBox3);
                 });
-                // Configurar listener de clic para el CheckBox3
+
                 holder.checkBox3.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    // Manejar evento de clic del CheckBox3
+                    habit.setCheckbox3Status(isChecked ? 1 : 0);
+                    databaseHelper.updateCheckboxStatus(habit.getId(), 3, isChecked ? 1 : 0);
+                    checkAndShowToastIfAllChecked(holder.checkBox1, holder.checkBox2, holder.checkBox3);
                 });
                 break;
             default:
                 break;
         }
-
 
         // Add click listener to the RecyclerView item
         holder.itemView.setOnClickListener(v -> {
@@ -115,7 +138,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             }
         });
     }
-
 
     // Método que devuelve la cantidad de elementos en el RecyclerView
     @Override
@@ -144,4 +166,30 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             checkBox3 = itemView.findViewById(R.id.checkBox3);
         }
     }
+
+    // Método para verificar si solo el CheckBox 1 está marcado y mostrar Toast
+    private void checkAndShowToastIfOnlyCheckBox1Checked(CheckBox checkBox1) {
+        if (checkBox1.isChecked()) {
+            // Mostrar Toast cuando solo el CheckBox 1 está marcado
+            Toast.makeText(context, "¡Enhorabuena por completar tu hábito de frecuencia 1!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Método para verificar si todos los CheckBox 1 y 2 están marcados y mostrar Toast
+    private void checkAndShowToastIfBothCheckBox1AndCheckBox2Checked(CheckBox checkBox1, CheckBox checkBox2) {
+        if (checkBox1.isChecked() && checkBox2.isChecked()) {
+            // Mostrar Toast cuando los CheckBox 1 y 2 están marcados
+            Toast.makeText(context, "¡Enhorabuena por completar tu hábito de frecuencia 2!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Método para verificar si los tres CheckBox están marcados y mostrar Toast
+    private void checkAndShowToastIfAllChecked(CheckBox checkBox1, CheckBox checkBox2, CheckBox checkBox3) {
+        boolean allChecked = checkBox1.isChecked() && (checkBox2 == null || checkBox2.isChecked()) && (checkBox3 == null || checkBox3.isChecked());
+        if (allChecked) {
+            // Mostrar Toast cuando todos los CheckBox están marcados
+            Toast.makeText(context, "¡Enhorabuena por completar tu hábito de frecuencia 3!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
