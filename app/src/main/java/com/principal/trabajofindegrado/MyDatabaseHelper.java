@@ -79,6 +79,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    // Método para añadir un usuario a la base de datos
     public void addUser(String username, String password, String dateOfBirth, String email, String phone) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -95,22 +96,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public String getUsername(Cursor cursor) {
-        int columnIndex = cursor.getColumnIndex(USER_COLUMN_USERNAME);
-        if (columnIndex != -1) {
-            return cursor.getString(columnIndex);
-        }
-        return null;
-    }
-
-    public String getPassword(Cursor cursor) {
-        int columnIndex = cursor.getColumnIndex(USER_COLUMN_PASSWORD);
-        if (columnIndex != -1) {
-            return cursor.getString(columnIndex);
-        }
-        return null;
-    }
-
+    // Método para validar las credenciales de inicio de sesión
     public ValidationResult validateCredentials(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {USER_COLUMN_ID, USER_COLUMN_USERNAME, USER_COLUMN_PASSWORD};
@@ -135,8 +121,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return new ValidationResult(count > 0, user, userId);
     }
 
-
-
+    // Método para eliminar un usuario
     public void deleteUser(String username) {
         SQLiteDatabase db = this.getWritableDatabase();
         int result = db.delete(USER_TABLE_NAME, USER_COLUMN_USERNAME + "=?", new String[]{username});
@@ -147,6 +132,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    // Método para añadir un hábito
     public void addHabit(String userId, String name, String difficulty, int frequency, String startDate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -168,12 +154,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
+    // Método para leer todos los hábitos de un usuario
     public Cursor readAllHabits(String userId){
         SQLiteDatabase db = this.getReadableDatabase();
         return db.query(TABLE_NAME, null, COLUMN_USER_ID + "=?", new String[]{userId}, null, null, null);
     }
 
+    // Método para actualizar un hábito
     public void updateHabit(Habit habit) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -191,6 +178,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    // Método para eliminar un hábito
     public void deleteHabit(String id){
         SQLiteDatabase db = this.getWritableDatabase();
         int result = db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{id});
@@ -201,6 +189,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    // Método para cambiar la contraseña de un usuario
     public void changePassword(String username, String newPassword) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -223,7 +212,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Método para obtener la contraseña actual del usuario
+    // Método para obtener la contraseña de un usuario por su nombre de usuario
     public String getPasswordByUsername(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {USER_COLUMN_PASSWORD};
@@ -285,6 +274,4 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "Estado de los checkboxes reiniciado correctamente", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }

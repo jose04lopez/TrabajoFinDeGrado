@@ -1,6 +1,8 @@
 package com.principal.trabajofindegrado;
 
-// Clase que representa un hábito
+/**
+ * Clase que representa un hábito.
+ */
 public class Habit {
     private int id; // Identificador único del hábito en la base de datos
     private String name; // Nombre del hábito
@@ -11,14 +13,22 @@ public class Habit {
     private int checkbox2Status; // Estado del segundo checkbox
     private int checkbox3Status; // Estado del tercer checkbox
 
-    // Constructor de la clase Habit
+    /**
+     * Constructor de la clase Habit.
+     *
+     * @param id         Identificador único del hábito en la base de datos
+     * @param name       Nombre del hábito
+     * @param difficulty Dificultad del hábito
+     * @param frequency  Frecuencia del hábito
+     * @param startDate  Fecha de inicio del hábito
+     */
     public Habit(int id, String name, String difficulty, int frequency, String startDate) {
         this.id = id;
         this.name = name;
         this.difficulty = difficulty;
         this.frequency = frequency;
         this.startDate = startDate;
-        // Establecer los valores predeterminados de los checkboxs
+        // Establecer los valores predeterminados de los checkboxes
         this.checkbox1Status = 0;
         this.checkbox2Status = 0;
         this.checkbox3Status = 0;

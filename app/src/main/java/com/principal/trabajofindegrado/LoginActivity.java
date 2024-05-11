@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra("USER_ID", result.getUserId());
 
                         startActivity(intent);
+                        finish();
                     } else {
                         // Si las credenciales no son válidas, mostrar un mensaje de error
                         Toast.makeText(LoginActivity.this, "Nombre de usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();

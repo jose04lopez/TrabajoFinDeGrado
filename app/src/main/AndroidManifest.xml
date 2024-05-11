@@ -32,6 +32,7 @@
         <activity android:name=".SettingsActivity$HelpActivity" />
         <activity android:name=".AddHabitActivity" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".StatisticsActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

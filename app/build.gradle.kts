@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation ("androidx.core:core-ktx:1.7.0")
+    implementation ("mysql:mysql-connector-java:8.0.33")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

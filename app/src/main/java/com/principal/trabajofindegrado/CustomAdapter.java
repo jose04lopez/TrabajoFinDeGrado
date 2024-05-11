@@ -1,11 +1,11 @@
 package com.principal.trabajofindegrado;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+/**
+ * Adaptador personalizado para mostrar hábitos en un RecyclerView.
+ */
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
     private final Context context;
@@ -21,28 +24,45 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private OnHabitClickListener onHabitClickListener;
     private MyDatabaseHelper databaseHelper;
 
-    // Constructor del adaptador
+    /**
+     * Constructor del adaptador.
+     *
+     * @param context   Contexto de la aplicación
+     * @param habitList Lista de hábitos a mostrar
+     */
     public CustomAdapter(Context context, ArrayList<Habit> habitList) {
         this.context = context;
         this.habitList = habitList;
     }
 
-    // Interfaz para manejar clics en los elementos del RecyclerView
+    /**
+     * Interfaz para manejar clics en los elementos del RecyclerView.
+     */
     public interface OnHabitClickListener {
         void onHabitClick(int position);
     }
 
-    // Método para establecer el listener de clic en el adaptador
+    /**
+     * Método para establecer el listener de clic en el adaptador.
+     *
+     * @param listener Listener de clic en los hábitos
+     */
     public void setOnHabitClickListener(OnHabitClickListener listener) {
         this.onHabitClickListener = listener;
     }
 
-    // Método para establecer el helper de la base de datos
+    /**
+     * Método para establecer el ayudante de la base de datos.
+     *
+     * @param databaseHelper Ayudante de la base de datos
+     */
     public void setDatabaseHelper(MyDatabaseHelper databaseHelper) {
         this.databaseHelper = databaseHelper;
     }
 
-    // Método llamado cuando se crea un nuevo ViewHolder
+    /**
+     * Método llamado cuando se crea un nuevo ViewHolder.
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,31 +71,34 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
-    // Método llamado cuando se actualiza el contenido de un ViewHolder
+    /**
+     * Método llamado cuando se actualiza el contenido de un ViewHolder.
+     */
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Habit habit = habitList.get(position);
 
-        // Set habit name
+        // Establecer nombre del hábito
         holder.txtHabitName.setText(habit.getName());
 
-        // Set difficulty with resource string
+        // Establecer dificultad con string de recursos
         holder.txtDifficulty.setText(context.getString(R.string.difficulty_label) + habit.getDifficulty());
 
-        // Set frequency with resource string
+        // Establecer frecuencia con string de recursos
         holder.txtFrequency.setText(context.getString(R.string.frequency_label) + habit.getFrequency());
 
-        // Set start date with resource string
+        // Establecer fecha de inicio con string de recursos
         holder.txtStartDate.setText(context.getString(R.string.start_date_label) + habit.getStartDate());
 
-        // Set checkboxes visibility based on frequency
+        // Establecer visibilidad de los checkboxes basada en la frecuencia
         switch (habit.getFrequency()) {
             case 1:
                 holder.checkBox1.setVisibility(View.VISIBLE);
                 holder.checkBox2.setVisibility(View.GONE);
                 holder.checkBox3.setVisibility(View.GONE);
                 holder.checkBox1.setChecked(habit.getCheckbox1Status() == 1);
-                // Agregar lógica para verificar y mostrar Toast si todos los CheckBox están marcados
+                // Agregar lógica para verificar y mostrar Toast si solo el CheckBox 1 está marcado
                 holder.checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     habit.setCheckbox1Status(isChecked ? 1 : 0);
                     databaseHelper.updateCheckboxStatus(habit.getId(), 1, isChecked ? 1 : 0);
@@ -88,7 +111,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 holder.checkBox3.setVisibility(View.GONE);
                 holder.checkBox1.setChecked(habit.getCheckbox1Status() == 1);
                 holder.checkBox2.setChecked(habit.getCheckbox2Status() == 1);
-                // Agregar lógica para verificar y mostrar Toast si todos los CheckBox están marcados
+                // Agregar lógica para verificar y mostrar Toast si ambos CheckBox 1 y 2 están marcados
                 holder.checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     habit.setCheckbox1Status(isChecked ? 1 : 0);
                     databaseHelper.updateCheckboxStatus(habit.getId(), 1, isChecked ? 1 : 0);
@@ -108,7 +131,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 holder.checkBox1.setChecked(habit.getCheckbox1Status() == 1);
                 holder.checkBox2.setChecked(habit.getCheckbox2Status() == 1);
                 holder.checkBox3.setChecked(habit.getCheckbox3Status() == 1);
-                // Agregar lógica para mostrar Toast cuando los tres CheckBox estén marcados
+                // Agregar lógica para mostrar Toast cuando todos los CheckBox están marcados
                 holder.checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     habit.setCheckbox1Status(isChecked ? 1 : 0);
                     databaseHelper.updateCheckboxStatus(habit.getId(), 1, isChecked ? 1 : 0);
@@ -131,7 +154,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 break;
         }
 
-        // Add click listener to the RecyclerView item
+        // Agregar listener de clic al elemento del RecyclerView
         holder.itemView.setOnClickListener(v -> {
             if (onHabitClickListener != null) {
                 onHabitClickListener.onHabitClick(position);
@@ -139,13 +162,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         });
     }
 
-    // Método que devuelve la cantidad de elementos en el RecyclerView
+    /**
+     * Método que devuelve la cantidad de elementos en el RecyclerView.
+     */
     @Override
     public int getItemCount() {
         return habitList.size();
     }
 
-    // Clase ViewHolder que representa cada elemento del RecyclerView
+    /**
+     * Clase ViewHolder que representa cada elemento del RecyclerView.
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtHabitName;
         TextView txtDifficulty;
@@ -153,7 +180,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         TextView txtStartDate;
         CheckBox checkBox1, checkBox2, checkBox3;
 
-        // Constructor ViewHolder
+        /**
+         * Constructor ViewHolder.
+         */
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             // Enlazar los TextView y CheckBoxes del diseño de elemento con las variables de la clase ViewHolder
@@ -175,10 +204,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
     }
 
-    // Método para verificar si todos los CheckBox 1 y 2 están marcados y mostrar Toast
+    // Método para verificar si ambos CheckBox 1 y 2 están marcados y mostrar Toast
     private void checkAndShowToastIfBothCheckBox1AndCheckBox2Checked(CheckBox checkBox1, CheckBox checkBox2) {
         if (checkBox1.isChecked() && checkBox2.isChecked()) {
-            // Mostrar Toast cuando los CheckBox 1 y 2 están marcados
+            // Mostrar Toast cuando ambos CheckBox 1 y 2 están marcados
             Toast.makeText(context, "¡Enhorabuena por completar tu hábito de frecuencia 2!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -191,5 +220,4 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             Toast.makeText(context, "¡Enhorabuena por completar tu hábito de frecuencia 3!", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

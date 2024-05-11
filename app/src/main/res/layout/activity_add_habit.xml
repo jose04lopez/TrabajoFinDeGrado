@@ -151,7 +151,7 @@
             android:layout_below="@id/habithelp3_text"
             android:layout_marginBottom="5dp"
             android:layout_centerHorizontal="true"
-            android:text="Dificultad: Moderada"
+            android:text="Dificultad: Difícil"
             android:textSize="14sp"/>
 
         <TextView
@@ -237,7 +237,7 @@
             android:layout_below="@id/habithelp5_text"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
-            android:text="Dificultad: Fácil"
+            android:text="Dificultad: Difícil"
             android:textSize="14sp"/>
 
         <TextView
