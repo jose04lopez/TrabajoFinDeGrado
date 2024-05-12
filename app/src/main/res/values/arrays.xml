@@ -1,10 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Array de niveles de dificultad -->
     <string-array name="difficulty_levels">
         <item>Fácil</item>
         <item>Moderada</item>
         <item>Difícil</item>
     </string-array>
+
+    <!-- Array de niveles de frecuencia -->
     <string-array name="frequency_levels">
         <item>1</item>
         <item>2</item>

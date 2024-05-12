@@ -1,4 +1,4 @@
-package com.principal.trabajofindegrado;
+package com.principal.trabajofindegrado.Adaptadores;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,10 +12,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.principal.trabajofindegrado.Database.MyDatabaseHelper;
+import com.principal.trabajofindegrado.Objetos.Habit;
+import com.principal.trabajofindegrado.R;
+
 import java.util.ArrayList;
 
 /**
  * Adaptador personalizado para mostrar hábitos en un RecyclerView.
+ *
+ * @author Jose y Guillermo
+ * @version 1.0
  */
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 

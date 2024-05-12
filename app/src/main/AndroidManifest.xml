@@ -18,7 +18,7 @@
 
         <!-- Actividad de inicio de sesión -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".Principal.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,12 +27,12 @@
         </activity>
 
         <!-- Otras actividades sin intent-filter -->
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".SettingsActivity$HelpActivity" />
-        <activity android:name=".AddHabitActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".StatisticsActivity" />
+        <activity android:name=".Principal.MainActivity" />
+        <activity android:name=".Principal.SettingsActivity" />
+        <activity android:name=".Principal.SettingsActivity$HelpActivity" />
+        <activity android:name=".Principal.AddHabitActivity" />
+        <activity android:name=".Principal.RegisterActivity" />
+        <activity android:name=".Principal.StatisticsActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

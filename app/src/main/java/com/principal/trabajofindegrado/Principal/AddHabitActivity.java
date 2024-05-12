@@ -1,4 +1,4 @@
-package com.principal.trabajofindegrado;
+package com.principal.trabajofindegrado.Principal;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -15,17 +15,31 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.principal.trabajofindegrado.Database.MyDatabaseHelper;
+import com.principal.trabajofindegrado.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 /**
- * Activity para agregar un nuevo hábito.
+ * Esta clase representa la actividad para agregar un nuevo hábito en la aplicación.
+ * Permite al usuario agregar hábitos predefinidos o personalizados a su lista de hábitos.
+ * También muestra opciones para navegar a otras actividades dentro de la aplicación.
+ *
+ * @author Jose y Guillermo
+ * @version 1.0
  */
 public class AddHabitActivity extends AppCompatActivity {
     MyDatabaseHelper databaseHelper;
     private String userId, username;
 
+    /**
+     * Método llamado cuando se crea la actividad. Configura la interfaz de usuario y
+     * establece los listeners de clic para los botones de navegación.
+     *
+     * @param savedInstanceState Objeto Bundle que contiene el estado previamente guardado de la actividad.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +60,7 @@ public class AddHabitActivity extends AppCompatActivity {
     }
 
     /**
-     * Configurar los botones de la actividad.
+     * Configura los botones de la actividad y asigna las acciones correspondientes a cada botón.
      */
     private void configureButtons() {
         // Obtener referencias a los botones
@@ -65,7 +79,8 @@ public class AddHabitActivity extends AppCompatActivity {
     }
 
     /**
-     * Configurar los layouts de hábitos para mostrar diálogos de confirmación.
+     * Configura los layouts de hábitos para mostrar diálogos de confirmación cuando el usuario selecciona un hábito.
+     * Estos layouts representan hábitos predefinidos que el usuario puede elegir.
      */
     private void configureHabitLayouts() {
         // Obtener referencias a los layouts de hábitos
@@ -86,9 +101,10 @@ public class AddHabitActivity extends AppCompatActivity {
     }
 
     /**
-     * Mostrar un diálogo de confirmación para añadir un hábito predefinido.
+     * Muestra un diálogo de confirmación cuando el usuario selecciona un hábito predefinido.
+     * Si el hábito ya está agregado, muestra un mensaje de advertencia.
      *
-     * @param habitName Nombre del hábito
+     * @param habitName Nombre del hábito seleccionado por el usuario.
      */
     private void showConfirmationDialog(String habitName) {
         // Verificar si el hábito ya está agregado
@@ -107,9 +123,10 @@ public class AddHabitActivity extends AppCompatActivity {
     }
 
     /**
-     * Añadir un hábito desde un layout de hábito.
+     * Añade un hábito a la base de datos cuando el usuario selecciona un hábito predefinido desde un layout.
+     * Obtiene la dificultad y la frecuencia del hábito desde la interfaz de usuario y los agrega a la base de datos.
      *
-     * @param habitName Nombre del hábito
+     * @param habitName Nombre del hábito seleccionado por el usuario.
      */
     private void addHabitFromLayout(String habitName) {
         RelativeLayout selectedHabitLayout;
@@ -227,10 +244,7 @@ public class AddHabitActivity extends AppCompatActivity {
      * Navegar a la actividad de añadir hábito (AddHabitActivity).
      */
     private void goToAddHabitActivity() {
-        Intent intent = new Intent(AddHabitActivity.this, AddHabitActivity.class);
-        intent.putExtra("USERNAME", username);
-        intent.putExtra("USER_ID", userId);
-        startActivity(intent);
+        Toast.makeText(this, "Ya estás en la actividad para añadir habitos", Toast.LENGTH_SHORT).show();
     }
 
     /**

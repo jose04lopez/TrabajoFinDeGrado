@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- El diseño principal es un RelativeLayout que contiene diferentes hábitos y un menú inferior -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- LinearLayout superior -->
+    <!-- Layout para el título y los botones en la parte superior -->
     <RelativeLayout
         android:id="@+id/rl_top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
 
+        <!-- Layout para el título -->
         <LinearLayout
             android:id="@+id/bottomButtonsLayout"
             android:layout_width="match_parent"
@@ -38,6 +41,7 @@
         </LinearLayout>
     </RelativeLayout>
 
+    <!-- Layout para el primer hábito -->
     <RelativeLayout
         android:id="@+id/habithelp1"
         android:layout_width="match_parent"
@@ -48,7 +52,7 @@
         android:layout_marginRight="25dp"
         android:layout_marginTop="5dp">
 
-
+        <!-- Nombre del hábito -->
         <TextView
             android:id="@+id/habithelp1_text"
             android:layout_width="wrap_content"
@@ -60,6 +64,7 @@
             android:textSize="18sp"
             android:textStyle="bold"/>
 
+        <!-- Dificultad del hábito -->
         <TextView
             android:id="@+id/habithelp1_difficulty"
             android:layout_width="wrap_content"
@@ -70,6 +75,7 @@
             android:text="Dificultad: Fácil"
             android:textSize="14sp"/>
 
+        <!-- Frecuencia del hábito -->
         <TextView
             android:id="@+id/habithelp1_frequency"
             android:layout_width="wrap_content"
@@ -81,6 +87,7 @@
             android:textSize="14sp"/>
     </RelativeLayout>
 
+    <!-- Layout para el segundo hábito -->
     <RelativeLayout
         android:id="@+id/habithelp2"
         android:layout_width="match_parent"
@@ -91,6 +98,7 @@
         android:layout_marginRight="25dp"
         android:layout_marginTop="15dp">
 
+        <!-- Nombre del hábito -->
         <TextView
             android:id="@+id/habithelp2_text"
             android:layout_width="wrap_content"
@@ -102,6 +110,7 @@
             android:textSize="18sp"
             android:textStyle="bold"/>
 
+        <!-- Dificultad del hábito -->
         <TextView
             android:id="@+id/habithelp2_difficulty"
             android:layout_width="wrap_content"
@@ -112,6 +121,7 @@
             android:text="Dificultad: Moderada"
             android:textSize="14sp"/>
 
+        <!-- Frecuencia del hábito -->
         <TextView
             android:id="@+id/habithelp2_frequency"
             android:layout_width="wrap_content"
@@ -123,6 +133,7 @@
             android:textSize="14sp"/>
     </RelativeLayout>
 
+    <!-- Layout para el tercer hábito -->
     <RelativeLayout
         android:id="@+id/habithelp3"
         android:layout_width="match_parent"
@@ -133,6 +144,7 @@
         android:layout_marginRight="25dp"
         android:layout_marginTop="15dp">
 
+        <!-- Nombre del hábito -->
         <TextView
             android:id="@+id/habithelp3_text"
             android:layout_width="wrap_content"
@@ -144,6 +156,7 @@
             android:textSize="18sp"
             android:textStyle="bold"/>
 
+        <!-- Dificultad del hábito -->
         <TextView
             android:id="@+id/habithelp3_difficulty"
             android:layout_width="wrap_content"
@@ -154,6 +167,7 @@
             android:text="Dificultad: Difícil"
             android:textSize="14sp"/>
 
+        <!-- Frecuencia del hábito -->
         <TextView
             android:id="@+id/habithelp3_frequency"
             android:layout_width="wrap_content"
@@ -165,6 +179,7 @@
             android:textSize="14sp"/>
     </RelativeLayout>
 
+    <!-- Layout para el cuarto hábito -->
     <RelativeLayout
         android:id="@+id/habithelp4"
         android:layout_width="match_parent"
@@ -175,6 +190,7 @@
         android:layout_marginRight="25dp"
         android:layout_marginTop="15dp">
 
+        <!-- Nombre del hábito -->
         <TextView
             android:id="@+id/habithelp4_text"
             android:layout_width="wrap_content"
@@ -186,6 +202,7 @@
             android:textSize="18sp"
             android:textStyle="bold"/>
 
+        <!-- Dificultad del hábito -->
         <TextView
             android:id="@+id/habithelp4_difficulty"
             android:layout_width="wrap_content"
@@ -196,6 +213,7 @@
             android:text="Dificultad: Fácil"
             android:textSize="14sp"/>
 
+        <!-- Frecuencia del hábito -->
         <TextView
             android:id="@+id/habithelp4_frequency"
             android:layout_width="wrap_content"
@@ -207,8 +225,7 @@
             android:textSize="14sp"/>
     </RelativeLayout>
 
-
-
+    <!-- Layout para el quinto hábito -->
     <RelativeLayout
         android:id="@+id/habithelp5"
         android:layout_width="match_parent"
@@ -219,6 +236,7 @@
         android:layout_marginRight="25dp"
         android:layout_marginTop="15dp">
 
+        <!-- Nombre del hábito -->
         <TextView
             android:id="@+id/habithelp5_text"
             android:layout_width="wrap_content"
@@ -230,6 +248,7 @@
             android:textSize="18sp"
             android:textStyle="bold"/>
 
+        <!-- Dificultad del hábito -->
         <TextView
             android:id="@+id/habithelp5_difficulty"
             android:layout_width="wrap_content"
@@ -240,6 +259,7 @@
             android:text="Dificultad: Difícil"
             android:textSize="14sp"/>
 
+        <!-- Frecuencia del hábito -->
         <TextView
             android:id="@+id/habithelp5_frequency"
             android:layout_width="wrap_content"
@@ -251,6 +271,7 @@
             android:textSize="14sp"/>
     </RelativeLayout>
 
+    <!-- Layout para el sexto hábito -->
     <RelativeLayout
         android:id="@+id/habithelp6"
         android:layout_width="match_parent"
@@ -261,6 +282,7 @@
         android:layout_marginRight="25dp"
         android:layout_marginTop="15dp">
 
+        <!-- Nombre del hábito -->
         <TextView
             android:id="@+id/habithelp6_text"
             android:layout_width="wrap_content"
@@ -272,6 +294,7 @@
             android:textSize="18sp"
             android:textStyle="bold"/>
 
+        <!-- Dificultad del hábito -->
         <TextView
             android:id="@+id/habithelp6_difficulty"
             android:layout_width="wrap_content"

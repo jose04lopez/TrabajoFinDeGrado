@@ -1,9 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Define el color negro en formato ARGB (Alfa, Rojo, Verde, Azul) en hexadecimal -->
     <color name="black">#FF000000</color>
+    <!-- Define el color blanco en formato ARGB en hexadecimal -->
     <color name="white">#FFFFFFFF</color>
+    <!-- Define un tono de verde en formato ARGB en hexadecimal -->
     <color name="green">#80FF80</color>
+    <!-- Define el color azul en formato ARGB en hexadecimal -->
     <color name="blue">#0000FF</color>
+    <!-- Define un tono de blanco apagado en formato ARGB en hexadecimal -->
     <color name="off_white">#F5F5F5</color>
-
 </resources>

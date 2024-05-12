@@ -1,39 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Layout principal utilizando un LinearLayout vertical con relleno -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="20dp">
 
+    <!-- Etiqueta para el nombre del hábito -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nombre del hábito:" />
 
+    <!-- Campo de entrada de texto para el nombre del hábito -->
     <EditText
         android:id="@+id/editText_habit_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Ingrese el nombre del hábito" />
 
+    <!-- Etiqueta para la dificultad -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Dificultad:" />
 
+    <!-- Selector de dificultad utilizando un Spinner -->
     <Spinner
         android:id="@+id/spinner_difficulty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:entries="@array/difficulty_levels" />
 
+    <!-- Etiqueta para la frecuencia -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Frecuencia:" />
 
+    <!-- Selector de frecuencia utilizando un Spinner -->
     <Spinner
         android:id="@+id/spinner_frequency"
         android:layout_width="match_parent"

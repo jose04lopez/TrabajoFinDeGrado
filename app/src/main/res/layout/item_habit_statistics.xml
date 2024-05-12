@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="18dp"
+    android:layout_marginLeft="33dp"
+    android:layout_marginBottom="2dp">
+
+    <!-- Contenedor para la información del hábito -->
+    <LinearLayout
+        android:id="@+id/llHabitInfo"
+        android:background="@drawable/rounded_gray_border"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Nombre del hábito -->
+        <TextView
+            android:id="@+id/txtHabitName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"/>
+
+        <!-- Dificultad del hábito -->
+        <TextView
+            android:id="@+id/txtDifficulty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"/>
+
+        <!-- Frecuencia del hábito -->
+        <TextView
+            android:id="@+id/txtFrequency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <!-- Contenedor para las estadísticas -->
+    <LinearLayout
+        android:id="@+id/llStatistics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_gray_border"
+        android:orientation="vertical"
+        android:layout_below="@id/llHabitInfo"
+        android:padding="10dp"
+        android:layout_marginTop="10dp">
+
+        <!-- TextViews para mostrar las estadísticas -->
+        <TextView
+            android:id="@+id/txtStatistics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/txtDaysSinceStartDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+</RelativeLayout>

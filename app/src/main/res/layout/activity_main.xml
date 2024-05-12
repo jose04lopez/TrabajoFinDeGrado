@@ -1,10 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout principal utilizando RelativeLayout -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/off_white"
     android:layout_height="match_parent">
 
-
+    <!-- Calendario -->
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
@@ -14,7 +16,7 @@
         android:dateTextAppearance="@style/CalenderViewWeekCustomText"
         android:theme="@style/CalenderViewCustom" />
 
-
+    <!-- Selector de filtro (Spinner) -->
     <Spinner
         android:id="@+id/spinnerFilter"
         android:layout_width="match_parent"
@@ -26,6 +28,7 @@
         android:entries="@array/filters"
         android:minHeight="48dp" />
 
+    <!-- RecyclerView para mostrar hábitos -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/habitsRecyclerView"
         android:layout_width="match_parent"
@@ -35,6 +38,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginBottom="22dp" />
 
+    <!-- Layout para los botones en la parte inferior -->
     <LinearLayout
         android:id="@+id/bottomButtonsLayout"
         android:layout_width="match_parent"
@@ -45,6 +49,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
+        <!-- Botón para ir al día de hoy -->
         <ImageButton
             android:id="@+id/btnToday"
             android:layout_width="wrap_content"
@@ -60,6 +65,7 @@
             android:src="@drawable/ic_today"
             tools:ignore="TouchTargetSizeCheck" />
 
+        <!-- Botón para agregar un nuevo hábito -->
         <ImageButton
             android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
@@ -75,6 +81,7 @@
             android:src="@drawable/ic_add"
             tools:ignore="TouchTargetSizeCheck" />
 
+        <!-- Botón para ver estadísticas -->
         <ImageButton
             android:id="@+id/btnStatistics"
             android:layout_width="wrap_content"
@@ -92,6 +99,7 @@
 
     </LinearLayout>
 
+    <!-- Botón para acceder a la configuración -->
     <ImageButton
         android:id="@+id/btnSettings"
         android:layout_width="35dp"

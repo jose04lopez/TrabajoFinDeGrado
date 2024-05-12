@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- TextView para el nombre del hábito -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,6 +13,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginBottom="8dp" />
 
+    <!-- EditText para ingresar el nombre del hábito -->
     <EditText
         android:id="@+id/editHabitName"
         android:layout_width="match_parent"
@@ -19,6 +21,7 @@
         android:hint="Escribe el nombre del hábito"
         android:layout_marginBottom="16dp" />
 
+    <!-- TextView para la dificultad -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,12 +29,14 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginBottom="8dp" />
 
+    <!-- Spinner para seleccionar la dificultad -->
     <Spinner
         android:id="@+id/difficultySpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp" />
 
+    <!-- TextView para la frecuencia -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,12 +44,14 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginBottom="8dp" />
 
+    <!-- Spinner para seleccionar la frecuencia -->
     <Spinner
         android:id="@+id/frequencySpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp" />
 
+    <!-- TextView para la fecha de inicio -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,6 +59,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginBottom="8dp" />
 
+    <!-- EditText para ingresar la fecha de inicio -->
     <EditText
         android:id="@+id/editStartDate"
         android:layout_width="match_parent"

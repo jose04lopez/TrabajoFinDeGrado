@@ -1,4 +1,4 @@
-package com.principal.trabajofindegrado;
+package com.principal.trabajofindegrado.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +7,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.principal.trabajofindegrado.Objetos.Habit;
+import com.principal.trabajofindegrado.Objetos.User;
+import com.principal.trabajofindegrado.Objetos.ValidationResult;
+
+/**
+ * Clase para manejar la base de datos SQLite.
+ *
+ * @author Jose y Guillermo
+ * @version 1.0
+ */
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Habits.db";
@@ -57,11 +69,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             USER_COLUMN_EMAIL + " TEXT NOT NULL, " +
             USER_COLUMN_PHONE + " TEXT NOT NULL);";
 
+    /**
+     * Constructor de la clase.
+     *
+     * @param context El contexto de la aplicación.
+     */
     public MyDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
 
+    /**
+     * Método llamado cuando se crea la base de datos por primera vez.
+     *
+     * @param db La instancia de la base de datos.
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Ejecutar la sentencia SQL para crear la tabla de hábitos
@@ -70,6 +92,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_USER_TABLE);
     }
 
+    /**
+     * Método llamado cuando se actualiza la base de datos.
+     *
+     * @param db         La instancia de la base de datos.
+     * @param oldVersion La versión antigua de la base de datos.
+     * @param newVersion La versión nueva de la base de datos.
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Eliminar las tablas si existen
@@ -79,7 +108,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // Método para añadir un usuario a la base de datos
+    /**
+     * Método para añadir un usuario a la base de datos.
+     *
+     * @param username    El nombre de usuario.
+     * @param password    La contraseña del usuario.
+     * @param dateOfBirth La fecha de nacimiento del usuario.
+     * @param email       El correo electrónico del usuario.
+     * @param phone       El número de teléfono del usuario.
+     */
     public void addUser(String username, String password, String dateOfBirth, String email, String phone) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -96,7 +133,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Método para validar las credenciales de inicio de sesión
+    /**
+     * Método para validar las credenciales de inicio de sesión.
+     *
+     * @param username El nombre de usuario.
+     * @param password La contraseña del usuario.
+     * @return El resultado de la validación de las credenciales.
+     */
     public ValidationResult validateCredentials(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {USER_COLUMN_ID, USER_COLUMN_USERNAME, USER_COLUMN_PASSWORD};
@@ -114,14 +157,18 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 String dbUsername = cursor.getString(usernameIndex);
                 String dbPassword = cursor.getString(passwordIndex);
                 userId = cursor.getString(userIdIndex); // Obtener el ID del usuario
-                user = new User(dbUsername, dbPassword);
+                user = new User();
             }
         }
         cursor.close();
         return new ValidationResult(count > 0, user, userId);
     }
 
-    // Método para eliminar un usuario
+    /**
+     * Método para eliminar un usuario de la base de datos.
+     *
+     * @param username El nombre de usuario del usuario a eliminar.
+     */
     public void deleteUser(String username) {
         SQLiteDatabase db = this.getWritableDatabase();
         int result = db.delete(USER_TABLE_NAME, USER_COLUMN_USERNAME + "=?", new String[]{username});
@@ -132,7 +179,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Método para añadir un hábito
+    /**
+     * Método para añadir un hábito a la base de datos.
+     *
+     * @param userId     El ID del usuario al que pertenece el hábito.
+     * @param name       El nombre del hábito.
+     * @param difficulty La dificultad del hábito.
+     * @param frequency  La frecuencia del hábito.
+     * @param startDate  La fecha de inicio del hábito.
+     */
     public void addHabit(String userId, String name, String difficulty, int frequency, String startDate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -154,13 +209,22 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Método para leer todos los hábitos de un usuario
-    public Cursor readAllHabits(String userId){
+    /**
+     * Método para leer todos los hábitos de un usuario.
+     *
+     * @param userId El ID del usuario.
+     * @return Cursor que contiene los hábitos del usuario.
+     */
+    public Cursor readAllHabits(String userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.query(TABLE_NAME, null, COLUMN_USER_ID + "=?", new String[]{userId}, null, null, null);
     }
 
-    // Método para actualizar un hábito
+    /**
+     * Método para actualizar un hábito en la base de datos.
+     *
+     * @param habit El hábito a actualizar.
+     */
     public void updateHabit(Habit habit) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -171,25 +235,47 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_START_DATE, habit.getStartDate());
 
         int result = db.update(TABLE_NAME, cv, COLUMN_ID + "=?", new String[]{String.valueOf(habit.getId())});
-        if(result == -1){
+        if (result == -1) {
             Toast.makeText(context, "Error al actualizar el hábito", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Hábito actualizado correctamente", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // Método para eliminar un hábito
-    public void deleteHabit(String id){
+    /**
+     * Método para eliminar un hábito de la base de datos.
+     *
+     * @param id El ID del hábito a eliminar.
+     */
+    public void deleteHabit(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         int result = db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{id});
-        if(result == -1){
+        if (result == -1) {
             Toast.makeText(context, "Error al eliminar el hábito", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Hábito eliminado correctamente", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // Método para cambiar la contraseña de un usuario
+    /**
+     * Método para leer hábitos de un usuario por frecuencia.
+     *
+     * @param userId   El ID del usuario.
+     * @param frequency La frecuencia de los hábitos a filtrar.
+     * @return Cursor que contiene los hábitos filtrados por frecuencia.
+     */
+    public Cursor readHabitsByFrequency(String userId, int frequency) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_NAME, null, COLUMN_USER_ID + "=? AND " + COLUMN_FREQUENCY + "=?",
+                new String[]{userId, String.valueOf(frequency)}, null, null, null);
+    }
+
+    /**
+     * Método para cambiar la contraseña de un usuario.
+     *
+     * @param username    El nombre de usuario del usuario cuya contraseña se va a cambiar.
+     * @param newPassword La nueva contraseña.
+     */
     public void changePassword(String username, String newPassword) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -212,7 +298,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Método para obtener la contraseña de un usuario por su nombre de usuario
+    /**
+     * Método para obtener la contraseña de un usuario por su nombre de usuario.
+     *
+     * @param username El nombre de usuario del usuario.
+     * @return La contraseña del usuario.
+     */
     public String getPasswordByUsername(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {USER_COLUMN_PASSWORD};
@@ -232,9 +323,33 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return password;
     }
 
-    // Método para actualizar el estado de un checkbox en la base de datos
+    /**
+     * Método para actualizar el estado de un checkbox en la base de datos.
+     *
+     * @param habitId       El ID del hábito.
+     * @param checkboxNumber El número del checkbox.
+     * @param status        El estado del checkbox.
+     */
     public void updateCheckboxStatus(int habitId, int checkboxNumber, int status) {
         SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = getContentValues(checkboxNumber, status);
+
+        int result = db.update(TABLE_NAME, cv, COLUMN_ID + "=?", new String[]{String.valueOf(habitId)});
+        if (result == -1) {
+            Toast.makeText(context, "Error al actualizar el estado del checkbox", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Crea y devuelve un objeto ContentValues con la columna correspondiente al número del checkbox y su estado proporcionado.
+     *
+     * @param checkboxNumber El número del checkbox (debe estar entre 1 y 3).
+     * @param status         El estado del checkbox (0 para desmarcado, 1 para marcado).
+     * @return Un objeto ContentValues con la columna del checkbox actualizada con el estado proporcionado.
+     * @throws IllegalArgumentException Si el número del checkbox no está entre 1 y 3.
+     */
+    @NonNull
+    private static ContentValues getContentValues(int checkboxNumber, int status) {
         ContentValues cv = new ContentValues();
 
         String columnToUpdate;
@@ -249,15 +364,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 columnToUpdate = COLUMN_CHECKBOX3;
                 break;
             default:
-                // Si el número de checkbox es inválido, no hacer nada
-                return;
+                throw new IllegalArgumentException("Checkbox number must be between 1 and 3");
         }
 
         cv.put(columnToUpdate, status);
-        int result = db.update(TABLE_NAME, cv, COLUMN_ID + "=?", new String[]{String.valueOf(habitId)});
-        if (result == -1) {
-            Toast.makeText(context, "Error al actualizar el estado del checkbox", Toast.LENGTH_SHORT).show();
-        }
+        return cv;
     }
 
     // Método para reiniciar el estado de los checkboxes
@@ -270,8 +381,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         int result = db.update(TABLE_NAME, cv, null, null);
         if (result == -1) {
             Toast.makeText(context, "Error al reiniciar el estado de los checkboxes", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Estado de los checkboxes reiniciado correctamente", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

@@ -1,20 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Estilo personalizado para el CalenderView -->
     <style name="CalenderViewCustom" parent="Theme.AppCompat">
-        <!-- Usamos el selector para el color del círculo alrededor del día -->
+        <!-- Cambiamos el color del círculo alrededor del día seleccionado -->
         <item name="colorControlActivated">@color/green</item>
         <!-- Mantenemos el color del texto del día en negro -->
         <item name="android:textColorPrimary">@color/black</item>
     </style>
 
+    <!-- Estilo personalizado para el texto de la semana en el CalenderView -->
     <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
         <!-- Establecemos el color del texto de la semana en negro -->
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <!-- Estilo personalizado de prueba para el texto de la semana en el CalenderView -->
     <style name="CalenderViewCustomPrueba" parent="android:TextAppearance.DeviceDefault.Small">
-        <!-- Establecemos el color del texto de la semana en negro -->
+        <!-- Cambiamos el color del texto de la semana a blanco -->
         <item name="android:textColor">@color/white</item>
     </style>
-
 </resources>

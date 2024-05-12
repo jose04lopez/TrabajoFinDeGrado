@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/drawable/rounded_gray_border.xml -->
+<!--
+    Este archivo define un drawable con bordes redondeados y un color de fondo gris.
+    Se utiliza para crear una apariencia de borde redondeado y gris en elementos de la interfaz de usuario en Android.
+    Archivo: res/drawable/rounded_gray_border.xml
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
+    <!-- Define las esquinas redondeadas del drawable con un radio de 8dp -->
     <corners android:radius="8dp" />
+    <!-- Establece el color de fondo del drawable en gris -->
     <solid android:color="#E0E0E0" />
 </shape>

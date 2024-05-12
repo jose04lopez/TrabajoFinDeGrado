@@ -1,26 +1,37 @@
 <resources>
+    <!-- Nombre de la aplicación -->
     <string name="app_name">TFGHabitos</string>
+
+    <!-- Array de momentos del día -->
     <string-array name="times">
         <item>Mañana</item>
         <item>Tarde</item>
         <item>Noche</item>
     </string-array>
+
+    <!-- Array de filtros -->
     <string-array name="filters">
         <item>Todos</item>
         <item>Frecuencia 1</item>
         <item>Frecuencia 2</item>
         <item>Frecuencia 3</item>
     </string-array>
+
+    <!-- Descripciones de los botones -->
     <string name="today_button_description">Descripción del botón de hoy</string>
     <string name="add_button_description">Descripción del botón de añadir</string>
     <string name="statistics_button_description">Descripción del botón de estadísticas</string>
-    <string name="settings_button_description">Descripción del botón de de configuracion</string>
-    <string name="darklight_button_description">Descripción del botón de de darklight</string>
+    <string name="settings_button_description">Descripción del botón de configuración</string>
+
+    <!-- Nombre y descripción del canal -->
     <string name="channel_name">Nombre del canal</string>
     <string name="channel_description">Descripción del canal</string>
+
+    <!-- Confirmación para añadir hábito -->
     <string name="confirm_add_habit">¿Estás seguro de que quieres añadir el hábito %1$s?</string>
+
+    <!-- Etiquetas para la dificultad, frecuencia y fecha de inicio -->
     <string name="difficulty_label">Dificultad: \u00A0</string>
     <string name="frequency_label">Frecuencia: \u00A0</string>
     <string name="start_date_label">Inicio: \u00A0</string>
-
 </resources>

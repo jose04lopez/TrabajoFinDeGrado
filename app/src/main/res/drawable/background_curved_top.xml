@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Este archivo XML define la forma de un drawable en Android -->
+
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Define los radios de las esquinas del drawable -->
     <corners android:topLeftRadius="50dp" android:topRightRadius="50dp"/>
+
+    <!-- Establece el color sólido del drawable -->
     <solid android:color="@color/green"/>
 </shape>

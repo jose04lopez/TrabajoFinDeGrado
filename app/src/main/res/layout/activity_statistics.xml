@@ -1,16 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Aquí puedes agregar elementos de la interfaz de usuario para mostrar las estadísticas -->
     <!-- Por ejemplo, TextViews, Gráficos, etc. -->
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- LinearLayout superior -->
+    <RelativeLayout
+        android:id="@+id/rl_top_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Estadísticas"
-        android:textSize="24sp"
-        android:layout_centerInParent="true" />
+        android:layout_alignParentTop="true">
 
+        <LinearLayout
+            android:id="@+id/bottomButtonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:rotation="180"
+            android:background="@drawable/background_curved_top"
+            android:gravity="center"
+            android:layout_marginBottom="40px"
+            android:orientation="horizontal">
+
+            <!-- Título de la página -->
+            <TextView
+                android:id="@+id/textView_title"
+                android:layout_width="wrap_content"
+                android:layout_height="150px"
+                android:layout_centerHorizontal="true"
+                android:layout_marginVertical="20dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/alata"
+                android:rotation="180"
+                android:text="ESTADISTICAS"
+                android:textAlignment="center"
+                android:textSize="27sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- AQUI van los elementos -->
+    <!-- Layout XML donde deseas mostrar los hábitos utilizando RecyclerView -->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Principal.SettingsActivity">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewHabits"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="90dp"
+            android:layout_marginTop="90dp"/>
+
+    </RelativeLayout>
+    <!-- Menú inferior -->
+    <LinearLayout
+        android:id="@+id/bottomButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/background_curved_top"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="DuplicateIds">
+
+        <ImageButton
+            android:id="@+id/btnToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="60dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="@string/today_button_description"
+            android:maxWidth="37dp"
+            android:maxHeight="37dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_today"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <ImageButton
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="@string/add_button_description"
+            android:maxWidth="37dp"
+            android:maxHeight="37dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_add"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <ImageButton
+            android:id="@+id/btnStatistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="20dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="@string/statistics_button_description"
+            android:maxWidth="37dp"
+            android:maxHeight="37dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_statistics"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </LinearLayout>
 </RelativeLayout>

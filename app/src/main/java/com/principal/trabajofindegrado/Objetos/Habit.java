@@ -1,7 +1,15 @@
-package com.principal.trabajofindegrado;
+package com.principal.trabajofindegrado.Objetos;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Clase que representa un hábito.
+ *
+ * @author Jose y Guillermo
+ * @version 1.0
  */
 public class Habit {
     private int id; // Identificador único del hábito en la base de datos
@@ -33,6 +41,72 @@ public class Habit {
         this.checkbox2Status = 0;
         this.checkbox3Status = 0;
     }
+
+    /**
+     * Método para obtener estadísticas sobre el hábito.
+     * Este método calcula la cantidad total de veces que se ha marcado cada checkbox.
+     *
+     * @return Una cadena con las estadísticas de los checkboxes del hábito.
+     */
+    public String getCheckboxStatistics() {
+        // Contador para los checkbox marcados
+        int checkedCount = 0;
+
+        // Incrementar el contador si los checkboxes están marcados
+        checkedCount += (checkbox1Status == 1) ? 1 : 0;
+        checkedCount += (checkbox2Status == 1) ? 1 : 0;
+        checkedCount += (checkbox3Status == 1) ? 1 : 0;
+
+        // Construir el mensaje de estadísticas
+        String message;
+        switch (checkedCount) {
+            case 0:
+                message = "Hábito no realizado";
+                break;
+            case 1:
+                message = "Hábito realizado una vez";
+                break;
+            case 2:
+                message = "Hábito realizado dos veces";
+                break;
+            case 3:
+                message = "Hábito realizado tres veces";
+                break;
+            default:
+                message = "Estadísticas no disponibles";
+                break;
+        }
+
+        return message;
+    }
+
+    /**
+     * Método para calcular el número de días transcurridos desde la fecha de inicio del hábito.
+     *
+     * @return El número de días transcurridos desde la fecha de inicio del hábito.
+     */
+    public long calculateDaysSinceStartDate() {
+        // Obtener la fecha de inicio del hábito y la fecha actual
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate;
+        Date currentDate = new Date();
+
+        try {
+            startDate = dateFormat.parse(this.startDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0; // Manejo de error en caso de formato de fecha incorrecto
+        }
+
+        // Calcular la diferencia en milisegundos entre la fecha actual y la fecha de inicio
+        long differenceMillis = currentDate.getTime() - startDate.getTime();
+
+        // Convertir la diferencia de milisegundos a días
+        long daysDifference = TimeUnit.DAYS.convert(differenceMillis, TimeUnit.MILLISECONDS);
+
+        return daysDifference;
+    }
+
 
     // Métodos getter para obtener los valores de los atributos
     public int getId() {

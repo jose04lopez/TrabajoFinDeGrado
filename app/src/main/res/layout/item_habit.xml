@@ -1,20 +1,23 @@
 <!-- item_habit.xml -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="350dp"
+    android:layout_height="130dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:background="@drawable/rounded_gray_border"
     android:padding="16dp"
+    android:layout_marginLeft="33dp"
     android:layout_marginBottom="8dp">
 
+    <!-- Contenedor para la información del hábito -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
+        <!-- Nombre del hábito -->
         <TextView
             android:id="@+id/txtHabitName"
             android:layout_width="match_parent"
@@ -23,6 +26,7 @@
             android:textStyle="bold"
             android:layout_marginBottom="8dp"/>
 
+        <!-- Dificultad del hábito -->
         <TextView
             android:id="@+id/txtDifficulty"
             android:layout_width="match_parent"
@@ -30,6 +34,7 @@
             android:textSize="14sp"
             android:layout_marginBottom="4dp"/>
 
+        <!-- Frecuencia del hábito -->
         <TextView
             android:id="@+id/txtFrequency"
             android:layout_width="match_parent"
@@ -37,6 +42,7 @@
             android:textSize="14sp"
             android:layout_marginBottom="4dp"/>
 
+        <!-- Fecha de inicio del hábito -->
         <TextView
             android:id="@+id/txtStartDate"
             android:layout_width="match_parent"

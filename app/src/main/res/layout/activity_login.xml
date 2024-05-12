@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Diseño principal utilizando LinearLayout para disposición vertical -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,14 +9,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    tools:context=".Principal.MainActivity">
 
-    tools:context=".MainActivity">
+    <!-- CardView para contener el formulario de inicio de sesión -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp">
+
+        <!-- LinearLayout dentro del CardView para disposición vertical de elementos -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,6 +27,7 @@
             android:layout_gravity="center_horizontal"
             android:padding="24dp">
 
+            <!-- Título del formulario de inicio de sesión -->
             <TextView
                 android:id="@+id/loginText"
                 android:layout_width="match_parent"
@@ -33,6 +38,7 @@
                 android:textSize="36sp"
                 android:textStyle="bold" />
 
+            <!-- Campo de entrada para el nombre de usuario -->
             <EditText
                 android:id="@+id/username"
                 android:layout_width="match_parent"
@@ -44,6 +50,7 @@
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background" />
 
+            <!-- Campo de entrada para la contraseña -->
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
@@ -55,6 +62,8 @@
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background" />
+
+            <!-- Botón de inicio de sesión -->
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -63,10 +72,11 @@
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
                 android:backgroundTint="@color/green"
-                app:cornerRadius = "20dp"/>
+                app:cornerRadius="20dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- Enlace para registrarse -->
     <TextView
         android:id="@+id/signupText"
         android:layout_width="wrap_content"
@@ -76,5 +86,5 @@
         android:text="Registrarse"
         android:textAlignment="center"
         android:textColor="@color/green"
-        android:textSize="14sp" />
+        android:textSize="20sp" />
 </LinearLayout>

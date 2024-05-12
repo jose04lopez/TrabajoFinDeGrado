@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Define un array de fuentes precargadas -->
     <array name="preloaded_fonts" translatable="false">
+        <!-- Agrega el nombre de la fuente precargada -->
         <item>@font/alata</item>
     </array>
 </resources>
