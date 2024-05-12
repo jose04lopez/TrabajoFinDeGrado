@@ -1,6 +1,6 @@
 <resources>
     <!-- Nombre de la aplicación -->
-    <string name="app_name">TFGHabitos</string>
+    <string name="app_name">HabitNow</string>
 
     <!-- Array de momentos del día -->
     <string-array name="times">
