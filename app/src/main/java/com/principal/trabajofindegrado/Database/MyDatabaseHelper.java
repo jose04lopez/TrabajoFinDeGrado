@@ -22,7 +22,7 @@ import com.principal.trabajofindegrado.Objetos.ValidationResult;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Habits.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 9;
 
     // Tabla para los hábitos
     public static final String TABLE_NAME = "Habits";
@@ -35,6 +35,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_CHECKBOX1 = "checkbox1_status";
     private static final String COLUMN_CHECKBOX2 = "checkbox2_status";
     private static final String COLUMN_CHECKBOX3 = "checkbox3_status";
+    private static final String COLUMN_DAY_COMPLETED = "day_completed";
 
     // Tabla para los usuarios
     private static final String USER_TABLE_NAME = "Users";
@@ -58,6 +59,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             COLUMN_CHECKBOX1 + " INTEGER NOT NULL DEFAULT 0, " + // Nuevo checkbox 1
             COLUMN_CHECKBOX2 + " INTEGER NOT NULL DEFAULT 0, " + // Nuevo checkbox 2
             COLUMN_CHECKBOX3 + " INTEGER NOT NULL DEFAULT 0, " + // Nuevo checkbox 3
+            COLUMN_DAY_COMPLETED + " INTEGER NOT NULL DEFAULT 0, " + // Nuevo Day Completed
             "FOREIGN KEY(" + COLUMN_USER_ID + ") REFERENCES " + USER_TABLE_NAME + "(" + USER_COLUMN_ID + "));";
 
     // Sentencia SQL para crear la tabla de usuarios
@@ -250,6 +252,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_CHECKBOX1, 0); // Valor predeterminado del checkbox 1
         cv.put(COLUMN_CHECKBOX2, 0); // Valor predeterminado del checkbox 2
         cv.put(COLUMN_CHECKBOX3, 0); // Valor predeterminado del checkbox 3
+        cv.put(COLUMN_DAY_COMPLETED, 0);
 
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
@@ -319,6 +322,41 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return db.query(TABLE_NAME, null, COLUMN_USER_ID + "=? AND " + COLUMN_FREQUENCY + "=?",
                 new String[]{userId, String.valueOf(frequency)}, null, null, null);
     }
+
+    /**
+     * Método para aumentar el contador de días completados para un hábito en la base de datos.
+     *
+     * @param habitId El ID del hábito.
+     */
+    public void increaseDaysCompleted(int habitId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Consultar el valor actual de day_completed
+        Cursor cursor = db.query(TABLE_NAME, new String[]{COLUMN_DAY_COMPLETED}, COLUMN_ID + "=?",
+                new String[]{String.valueOf(habitId)}, null, null, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int columnIndex = cursor.getColumnIndex(COLUMN_DAY_COMPLETED);
+                if (columnIndex != -1) {
+                    int currentDaysCompleted = cursor.getInt(columnIndex);
+                    ContentValues cv = new ContentValues();
+                    cv.put(COLUMN_DAY_COMPLETED, currentDaysCompleted + 1);
+
+                    // Actualizar el valor de day_completed
+                    int result = db.update(TABLE_NAME, cv, COLUMN_ID + "=?", new String[]{String.valueOf(habitId)});
+                    if (result == -1) {
+                        Toast.makeText(context, "Error al aumentar el contador de días completados", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            // Cerrar el cursor
+            cursor.close();
+        } else {
+            // Error al ejecutar la consulta
+            Toast.makeText(context, "Error al obtener los días completados para el hábito con ID: " + habitId, Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     /**
      * Método para cambiar la contraseña de un usuario.
@@ -414,7 +452,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 columnToUpdate = COLUMN_CHECKBOX3;
                 break;
             default:
-                throw new IllegalArgumentException("Checkbox number must be between 1 and 3");
+                throw new IllegalArgumentException("El numero de checkboxs debe estar entre 1 y 3");
         }
 
         cv.put(columnToUpdate, status);

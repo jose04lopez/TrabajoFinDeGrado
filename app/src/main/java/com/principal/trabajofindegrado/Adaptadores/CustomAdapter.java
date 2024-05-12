@@ -109,7 +109,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 holder.checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     habit.setCheckbox1Status(isChecked ? 1 : 0);
                     databaseHelper.updateCheckboxStatus(habit.getId(), 1, isChecked ? 1 : 0);
-                    checkAndShowToastIfOnlyCheckBox1Checked(holder.checkBox1);
+                    checkAndShowToastIfOnlyCheckBox1Checked(holder.checkBox1, habit.getId());
                 });
                 break;
             case 2:
@@ -122,13 +122,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 holder.checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     habit.setCheckbox1Status(isChecked ? 1 : 0);
                     databaseHelper.updateCheckboxStatus(habit.getId(), 1, isChecked ? 1 : 0);
-                    checkAndShowToastIfBothCheckBox1AndCheckBox2Checked(holder.checkBox1, holder.checkBox2);
+                    checkAndShowToastIfBothCheckBox1AndCheckBox2Checked(holder.checkBox1, holder.checkBox2, habit.getId());
                 });
 
                 holder.checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     habit.setCheckbox2Status(isChecked ? 1 : 0);
                     databaseHelper.updateCheckboxStatus(habit.getId(), 2, isChecked ? 1 : 0);
-                    checkAndShowToastIfAllChecked(holder.checkBox1, holder.checkBox2, holder.checkBox3);
+                    checkAndShowToastIfAllChecked(holder.checkBox1, holder.checkBox2, holder.checkBox3, habit.getId());
                 });
                 break;
             case 3:
@@ -142,19 +142,19 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 holder.checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     habit.setCheckbox1Status(isChecked ? 1 : 0);
                     databaseHelper.updateCheckboxStatus(habit.getId(), 1, isChecked ? 1 : 0);
-                    checkAndShowToastIfAllChecked(holder.checkBox1, holder.checkBox2, holder.checkBox3);
+                    checkAndShowToastIfAllChecked(holder.checkBox1, holder.checkBox2, holder.checkBox3, habit.getId());
                 });
 
                 holder.checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     habit.setCheckbox2Status(isChecked ? 1 : 0);
                     databaseHelper.updateCheckboxStatus(habit.getId(), 2, isChecked ? 1 : 0);
-                    checkAndShowToastIfAllChecked(holder.checkBox1, holder.checkBox2, holder.checkBox3);
+                    checkAndShowToastIfAllChecked(holder.checkBox1, holder.checkBox2, holder.checkBox3, habit.getId());
                 });
 
                 holder.checkBox3.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     habit.setCheckbox3Status(isChecked ? 1 : 0);
                     databaseHelper.updateCheckboxStatus(habit.getId(), 3, isChecked ? 1 : 0);
-                    checkAndShowToastIfAllChecked(holder.checkBox1, holder.checkBox2, holder.checkBox3);
+                    checkAndShowToastIfAllChecked(holder.checkBox1, holder.checkBox2, holder.checkBox3, habit.getId());
                 });
                 break;
             default:
@@ -207,11 +207,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      * Verifica si solo el CheckBox 1 está marcado y muestra un Toast si es así.
      *
      * @param checkBox1 El CheckBox 1 a verificar.
+     * @param idHabit El id del habito al que aumentarle el valor.
      */
-    private void checkAndShowToastIfOnlyCheckBox1Checked(CheckBox checkBox1) {
+    private void checkAndShowToastIfOnlyCheckBox1Checked(CheckBox checkBox1, int idHabit) {
         if (checkBox1.isChecked()) {
             // Mostrar Toast cuando solo el CheckBox 1 está marcado
             Toast.makeText(context, "¡Enhorabuena por completar tu hábito de frecuencia 1!", Toast.LENGTH_SHORT).show();
+            databaseHelper.increaseDaysCompleted(idHabit);
         }
     }
 
@@ -220,11 +222,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      *
      * @param checkBox1 El CheckBox 1 a verificar.
      * @param checkBox2 El CheckBox 2 a verificar.
+     * @param idHabit El id del habito al que aumentarle el valor.
      */
-    private void checkAndShowToastIfBothCheckBox1AndCheckBox2Checked(CheckBox checkBox1, CheckBox checkBox2) {
+    private void checkAndShowToastIfBothCheckBox1AndCheckBox2Checked(CheckBox checkBox1, CheckBox checkBox2, int idHabit) {
         if (checkBox1.isChecked() && checkBox2.isChecked()) {
             // Mostrar Toast cuando ambos CheckBox 1 y 2 están marcados
             Toast.makeText(context, "¡Enhorabuena por completar tu hábito de frecuencia 2!", Toast.LENGTH_SHORT).show();
+            databaseHelper.increaseDaysCompleted(idHabit);
         }
     }
 
@@ -234,12 +238,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      * @param checkBox1 El CheckBox 1 a verificar.
      * @param checkBox2 El CheckBox 2 a verificar.
      * @param checkBox3 El CheckBox 3 a verificar.
+     * @param idHabit El id del habito al que aumentarle el valor.
      */
-    private void checkAndShowToastIfAllChecked(CheckBox checkBox1, CheckBox checkBox2, CheckBox checkBox3) {
+    private void checkAndShowToastIfAllChecked(CheckBox checkBox1, CheckBox checkBox2, CheckBox checkBox3, int idHabit) {
         boolean allChecked = checkBox1.isChecked() && (checkBox2 == null || checkBox2.isChecked()) && (checkBox3 == null || checkBox3.isChecked());
         if (allChecked) {
             // Mostrar Toast cuando todos los CheckBox están marcados
             Toast.makeText(context, "¡Enhorabuena por completar tu hábito de frecuencia 3!", Toast.LENGTH_SHORT).show();
+            databaseHelper.increaseDaysCompleted(idHabit);
         }
     }
 

@@ -90,6 +90,7 @@ public class StatisticsActivity extends AppCompatActivity implements CustomAdapt
             int checkbox1Index = cursor.getColumnIndex("checkbox1_status");
             int checkbox2Index = cursor.getColumnIndex("checkbox2_status");
             int checkbox3Index = cursor.getColumnIndex("checkbox3_status");
+            int daysCompleted = cursor.getColumnIndex("day_completed");
 
             // Recorrer el cursor y agregar cada hábito a la lista
             while (cursor.moveToNext()) {
@@ -101,11 +102,13 @@ public class StatisticsActivity extends AppCompatActivity implements CustomAdapt
                 int checkbox1Status = cursor.getInt(checkbox1Index) == 1 ? 1 : 0;
                 int checkbox2Status = cursor.getInt(checkbox2Index) == 1 ? 1 : 0;
                 int checkbox3Status = cursor.getInt(checkbox3Index) == 1 ? 1 : 0;
+                int dayCompleted = cursor.getInt(daysCompleted);
 
                 Habit habit = new Habit(habitId, habitName, difficulty, frequency, startDate);
                 habit.setCheckbox1Status(checkbox1Status);
                 habit.setCheckbox2Status(checkbox2Status);
                 habit.setCheckbox3Status(checkbox3Status);
+                habit.setDaysCompleted(dayCompleted);
                 habitList.add(habit);
             }
         }

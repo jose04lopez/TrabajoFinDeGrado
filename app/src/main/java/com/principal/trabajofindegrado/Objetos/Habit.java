@@ -22,6 +22,7 @@ public class Habit {
     private int checkbox1Status; // Estado del primer checkbox
     private int checkbox2Status; // Estado del segundo checkbox
     private int checkbox3Status; // Estado del tercer checkbox
+    private int daysCompleted; // Dias completados
 
     /**
      * Constructor de la clase Habit.
@@ -38,10 +39,11 @@ public class Habit {
         this.difficulty = difficulty;
         this.frequency = frequency;
         this.startDate = startDate;
-        // Establecer los valores predeterminados de los checkboxes
+        // Establecer los valores predeterminados de los checkboxes y dias completados
         this.checkbox1Status = 0;
         this.checkbox2Status = 0;
         this.checkbox3Status = 0;
+        this.daysCompleted = 0;
     }
 
     /**
@@ -109,23 +111,6 @@ public class Habit {
         return TimeUnit.DAYS.convert(differenceMillis, TimeUnit.MILLISECONDS);
     }
 
-    /**
-     * Método para calcular el número de días completados.
-     *
-     * @return El número de días completados para el hábito.
-     */
-    public int calculateDaysCompleted() {
-        // Contador para los días completados
-        int daysCompleted = 0;
-
-        // Incrementar el contador si todos los checkboxes están marcados
-        if (checkbox1Status == 1 && checkbox2Status == 1 && checkbox3Status == 1) {
-            daysCompleted++;
-        }
-
-        return daysCompleted;
-    }
-
     // Métodos getter para obtener los valores de los atributos
     public int getId() {
         return id;
@@ -147,7 +132,6 @@ public class Habit {
         return startDate;
     }
 
-
     public int getCheckbox1Status() {
         return checkbox1Status;
     }
@@ -160,9 +144,12 @@ public class Habit {
         return checkbox3Status;
     }
 
-    // Métodos setter para establecer los valores de los atributos
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getDaysCompleted() {
+        return daysCompleted;
     }
 
     public void setName(String name) {
@@ -191,5 +178,9 @@ public class Habit {
 
     public void setCheckbox3Status(int checkbox3Status) {
         this.checkbox3Status = checkbox3Status;
+    }
+
+    public void setDaysCompleted(int daysCompleted) {
+        this.daysCompleted = daysCompleted;
     }
 }

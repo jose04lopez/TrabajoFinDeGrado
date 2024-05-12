@@ -100,7 +100,7 @@ public class CustomAdapterStatistics extends RecyclerView.Adapter<CustomAdapterS
         holder.txtStatistics.setText(statistics);
 
         // Calcular y establecer el número de días completados
-        int daysCompleted = habit.calculateDaysCompleted();
+        int daysCompleted = habit.getDaysCompleted();
         holder.txtDaysCompleted.setText("Días completados: " + daysCompleted);
 
         // Agregar listener de clic al elemento del RecyclerView
