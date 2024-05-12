@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +32,8 @@ public class StatisticsActivity extends AppCompatActivity implements CustomAdapt
     private ArrayList<Habit> habitList;
     private String userId, username;
     private MyDatabaseHelper databaseHelper;
+    private TextView noHabitsTextView;
+
 
     /**
      * Método llamado cuando se crea la actividad.
@@ -42,6 +46,7 @@ public class StatisticsActivity extends AppCompatActivity implements CustomAdapt
         setContentView(R.layout.activity_statistics);
 
         databaseHelper = new MyDatabaseHelper(this);
+        noHabitsTextView = findViewById(R.id.noHabitsTextView); // Obtener referencia al TextView
 
         userId = getIntent().getStringExtra("USER_ID");
         username = getIntent().getStringExtra("USERNAME");
@@ -107,6 +112,13 @@ public class StatisticsActivity extends AppCompatActivity implements CustomAdapt
 
         // Notificar al adaptador que los datos han cambiado
         customAdapterStatistics.notifyDataSetChanged();
+
+        // Mostrar u ocultar el TextView dependiendo de si la lista de hábitos está vacía o no
+        if (habitList.isEmpty()) {
+            noHabitsTextView.setVisibility(View.VISIBLE);
+        } else {
+            noHabitsTextView.setVisibility(View.GONE);
+        }
 
         // Cerrar el cursor para liberar recursos
         if (cursor != null) {

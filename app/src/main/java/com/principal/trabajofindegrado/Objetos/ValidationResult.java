@@ -1,8 +1,6 @@
 package com.principal.trabajofindegrado.Objetos;
 
 
-import com.principal.trabajofindegrado.Objetos.User;
-
 /**
  * Clase que representa el resultado de la validación de un usuario.
  * Contiene información sobre si la validación fue exitosa, el usuario validado y su ID.

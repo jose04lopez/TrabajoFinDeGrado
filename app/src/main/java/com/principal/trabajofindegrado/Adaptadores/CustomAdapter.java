@@ -203,7 +203,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
     }
 
-    // Método para verificar si solo el CheckBox 1 está marcado y mostrar Toast
+    /**
+     * Verifica si solo el CheckBox 1 está marcado y muestra un Toast si es así.
+     *
+     * @param checkBox1 El CheckBox 1 a verificar.
+     */
     private void checkAndShowToastIfOnlyCheckBox1Checked(CheckBox checkBox1) {
         if (checkBox1.isChecked()) {
             // Mostrar Toast cuando solo el CheckBox 1 está marcado
@@ -211,7 +215,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
     }
 
-    // Método para verificar si ambos CheckBox 1 y 2 están marcados y mostrar Toast
+    /**
+     * Verifica si tanto el CheckBox 1 como el CheckBox 2 están marcados y muestra un Toast si es así.
+     *
+     * @param checkBox1 El CheckBox 1 a verificar.
+     * @param checkBox2 El CheckBox 2 a verificar.
+     */
     private void checkAndShowToastIfBothCheckBox1AndCheckBox2Checked(CheckBox checkBox1, CheckBox checkBox2) {
         if (checkBox1.isChecked() && checkBox2.isChecked()) {
             // Mostrar Toast cuando ambos CheckBox 1 y 2 están marcados
@@ -219,7 +228,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
     }
 
-    // Método para verificar si los tres CheckBox están marcados y mostrar Toast
+    /**
+     * Verifica si todos los CheckBox están marcados y muestra un Toast si es así.
+     *
+     * @param checkBox1 El CheckBox 1 a verificar.
+     * @param checkBox2 El CheckBox 2 a verificar.
+     * @param checkBox3 El CheckBox 3 a verificar.
+     */
     private void checkAndShowToastIfAllChecked(CheckBox checkBox1, CheckBox checkBox2, CheckBox checkBox3) {
         boolean allChecked = checkBox1.isChecked() && (checkBox2 == null || checkBox2.isChecked()) && (checkBox3 == null || checkBox3.isChecked());
         if (allChecked) {
@@ -227,4 +242,5 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             Toast.makeText(context, "¡Enhorabuena por completar tu hábito de frecuencia 3!", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

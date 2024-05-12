@@ -180,6 +180,56 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Método para añadir un usuario a la base de datos si no existe.
+     *
+     * @param username    El nombre de usuario.
+     * @param password    La contraseña del usuario.
+     * @param dateOfBirth La fecha de nacimiento del usuario.
+     * @param email       El correo electrónico del usuario.
+     * @param phone       El número de teléfono del usuario.
+     */
+    public void addUserIfNotExists(String username, String password, String dateOfBirth, String email, String phone) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Verificar si el usuario ya existe
+        if (isUserExists(username)) {
+            Toast.makeText(context, "El usuario ya existe", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Si el usuario no existe, agregarlo a la base de datos
+        ContentValues cv = new ContentValues();
+        cv.put(USER_COLUMN_USERNAME, username);
+        cv.put(USER_COLUMN_PASSWORD, password);
+        cv.put(USER_COLUMN_BIRTHDATE, dateOfBirth);
+        cv.put(USER_COLUMN_EMAIL, email);
+        cv.put(USER_COLUMN_PHONE, phone);
+        long result = db.insert(USER_TABLE_NAME, null, cv);
+        if (result == -1) {
+            Toast.makeText(context, "Error al registrar el usuario", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Método para verificar si un usuario ya existe en la base de datos.
+     *
+     * @param username El nombre de usuario a verificar.
+     * @return true si el usuario ya existe, de lo contrario false.
+     */
+    public boolean isUserExists(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {USER_COLUMN_ID};
+        String selection = USER_COLUMN_USERNAME + "=?";
+        String[] selectionArgs = {username};
+        Cursor cursor = db.query(USER_TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count > 0;
+    }
+
+    /**
      * Método para añadir un hábito a la base de datos.
      *
      * @param userId     El ID del usuario al que pertenece el hábito.
@@ -371,7 +421,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return cv;
     }
 
-    // Método para reiniciar el estado de los checkboxes
+    /**
+     * Reinicia el estado de los checkboxes en la base de datos a desmarcados.
+     * Esto establece el estado de todos los checkboxes a 0 en la tabla de hábitos.
+     */
     public void resetCheckboxStatus() {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();

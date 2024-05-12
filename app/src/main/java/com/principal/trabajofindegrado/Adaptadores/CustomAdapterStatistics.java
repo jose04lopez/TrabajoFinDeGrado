@@ -27,7 +27,6 @@ public class CustomAdapterStatistics extends RecyclerView.Adapter<CustomAdapterS
     private final Context context;
     private final ArrayList<Habit> habitList;
     private OnHabitClickListener onHabitClickListener;
-    private MyDatabaseHelper databaseHelper;
 
     /**
      * Constructor del adaptador.
@@ -62,7 +61,6 @@ public class CustomAdapterStatistics extends RecyclerView.Adapter<CustomAdapterS
      * @param databaseHelper Ayudante de la base de datos
      */
     public void setDatabaseHelper(MyDatabaseHelper databaseHelper) {
-        this.databaseHelper = databaseHelper;
     }
 
     /**
@@ -101,12 +99,25 @@ public class CustomAdapterStatistics extends RecyclerView.Adapter<CustomAdapterS
         String statistics = habit.getCheckboxStatistics();
         holder.txtStatistics.setText(statistics);
 
+        // Calcular y establecer el número de días completados
+        int daysCompleted = habit.calculateDaysCompleted();
+        holder.txtDaysCompleted.setText("Días completados: " + daysCompleted);
+
         // Agregar listener de clic al elemento del RecyclerView
         holder.itemView.setOnClickListener(v -> {
             if (onHabitClickListener != null) {
                 onHabitClickListener.onHabitClick(position);
             }
         });
+    }
+
+    /**
+     * Método que actualiza la informacion en el RecyclerView.
+     */
+    public void updateData(ArrayList<Habit> updatedHabitList) {
+        habitList.clear();
+        habitList.addAll(updatedHabitList);
+        notifyDataSetChanged();
     }
 
 
@@ -128,6 +139,7 @@ public class CustomAdapterStatistics extends RecyclerView.Adapter<CustomAdapterS
         TextView txtStartDate;
         TextView txtStatistics;
         TextView txtDaysSinceStartDate;
+        TextView txtDaysCompleted;
         /**
          * Constructor ViewHolder.
          */
@@ -140,6 +152,7 @@ public class CustomAdapterStatistics extends RecyclerView.Adapter<CustomAdapterS
             txtStartDate = itemView.findViewById(R.id.txtStartDate);
             txtStatistics = itemView.findViewById(R.id.txtStatistics);
             txtDaysSinceStartDate = itemView.findViewById(R.id.txtDaysSinceStartDate);
+            txtDaysCompleted = itemView.findViewById(R.id.txtDaysCompleted);
         }
     }
 }

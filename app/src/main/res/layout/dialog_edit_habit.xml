@@ -64,7 +64,7 @@
         android:id="@+id/editStartDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Escribe la fecha de inicio (YYYY-MM-DD)"
+        android:hint="Escribe la fecha de inicio (DD-MM-YYYY)"
         android:inputType="date"
         android:layout_marginBottom="16dp" />
 

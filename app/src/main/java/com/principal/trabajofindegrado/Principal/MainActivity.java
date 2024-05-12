@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
     private ArrayList<Habit> habitList;
     private MyDatabaseHelper databaseHelper;
     private String userId, username;
+    private TextView noHabitsTextView;
 
     /**
      * Método llamado cuando se crea la actividad. Configura la interfaz de usuario y
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
         // Obtener información del usuario de la actividad anterior
         userId = getIntent().getStringExtra("USER_ID");
         username = getIntent().getStringExtra("USERNAME");
+
+        noHabitsTextView = findViewById(R.id.noHabitsTextView); // Obtener referencia al TextView
 
         if (userId != null) {
             // Configurar RecyclerView para mostrar hábitos
@@ -188,10 +192,19 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
             }
         }
 
+        // Mostrar u ocultar el TextView dependiendo de si la lista de hábitos está vacía o no
+        if (habitList.isEmpty()) {
+            noHabitsTextView.setVisibility(View.VISIBLE);
+        } else {
+            noHabitsTextView.setVisibility(View.GONE);
+        }
+
         customAdapter.notifyDataSetChanged();
     }
 
-
+    /**
+     * Abre la actividad de configuración.
+     */
     private void openSettingsActivity() {
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
         intent.putExtra("USERNAME", username);
@@ -199,11 +212,16 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
         startActivity(intent);
     }
 
+    /**
+     * Abre la actividad principal.
+     */
     private void openMainActivity() {
         Toast.makeText(this, "Ya estás en la actividad principal", Toast.LENGTH_SHORT).show();
-
     }
 
+    /**
+     * Abre la actividad para agregar un nuevo hábito.
+     */
     private void openAddHabitActivity() {
         Intent intent = new Intent(MainActivity.this, AddHabitActivity.class);
         intent.putExtra("USERNAME", username);
@@ -211,6 +229,9 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
         startActivity(intent);
     }
 
+    /**
+     * Abre la actividad de estadísticas.
+     */
     private void openStatisticsActivity() {
         Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
         intent.putExtra("USERNAME", username);
@@ -218,6 +239,11 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
         startActivity(intent);
     }
 
+    /**
+     * Método llamado cuando se hace clic en un hábito en la lista.
+     *
+     * @param position La posición del hábito en la lista.
+     */
     @Override
     public void onHabitClick(int position) {
         if (position >= 0 && position < habitList.size()) {
@@ -225,6 +251,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
             showEditOrDeleteDialog(selectedHabit);
         }
     }
+
 
     // Métodos para abrir actividades adicionales omitidos por brevedad
 
@@ -243,6 +270,13 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
             databaseHelper.deleteHabit(String.valueOf(habit.getId()));
             habitList.remove(habit);
             customAdapter.notifyDataSetChanged();
+
+            if (habitList.isEmpty()) {
+                noHabitsTextView.setVisibility(View.VISIBLE);
+            } else {
+                noHabitsTextView.setVisibility(View.GONE);
+            }
+
         });
         builder.setNeutralButton("Cancelar", (dialog, which) -> {
             // No hacer nada si se cancela
@@ -290,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
             String updatedStartDate = editStartDate.getText().toString().trim();
 
             if (!isValidDate(updatedStartDate)) {
-                Toast.makeText(this, "El formato de la fecha debe ser YYYY-MM-DD", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "El formato de la fecha debe ser DD-MM-YYYY", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -310,16 +344,14 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnH
         builder.create().show();
     }
 
-
-
     /**
-     * Verifica si la cadena dada es una fecha válida en formato YYYY-MM-DD.
+     * Verifica si la cadena dada es una fecha válida en formato DD-MM-YYYY.
      *
      * @param date La fecha a verificar.
      * @return true si la fecha es válida, de lo contrario false.
      */
     private boolean isValidDate(String date) {
-        return date.matches("\\d{4}-\\d{2}-\\d{2}");
+        return date.matches("\\d{2}-\\d{2}-\\d{4}");
     }
 
     /**

@@ -43,19 +43,31 @@
 
     <!-- AQUI van los elementos -->
     <!-- Layout XML donde deseas mostrar los hábitos utilizando RecyclerView -->
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Principal.SettingsActivity">
+        android:layout_below="@id/rl_top_layout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewHabits"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="90dp"
-            android:layout_marginTop="90dp"/>
+            android:layout_marginTop="10dp"/>
 
+        <!-- Mensaje cuando no hay hábitos -->
+        <TextView
+            android:id="@+id/noHabitsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="No hay hábitos para hacer por el momento Añade un nuevo hábito para empezar con tu nueva rutina"
+            android:visibility="gone"
+            android:textSize="18dp"
+            android:layout_marginLeft="27dp"
+            android:layout_marginRight="27dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/black" />
     </RelativeLayout>
     <!-- Menú inferior -->
     <LinearLayout

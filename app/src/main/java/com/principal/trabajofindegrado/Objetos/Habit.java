@@ -1,5 +1,7 @@
 package com.principal.trabajofindegrado.Objetos;
 
+import android.annotation.SuppressLint;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -87,7 +89,7 @@ public class Habit {
      */
     public long calculateDaysSinceStartDate() {
         // Obtener la fecha de inicio del hábito y la fecha actual
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date startDate;
         Date currentDate = new Date();
 
@@ -99,14 +101,30 @@ public class Habit {
         }
 
         // Calcular la diferencia en milisegundos entre la fecha actual y la fecha de inicio
+        assert startDate != null;
         long differenceMillis = currentDate.getTime() - startDate.getTime();
 
         // Convertir la diferencia de milisegundos a días
-        long daysDifference = TimeUnit.DAYS.convert(differenceMillis, TimeUnit.MILLISECONDS);
 
-        return daysDifference;
+        return TimeUnit.DAYS.convert(differenceMillis, TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * Método para calcular el número de días completados.
+     *
+     * @return El número de días completados para el hábito.
+     */
+    public int calculateDaysCompleted() {
+        // Contador para los días completados
+        int daysCompleted = 0;
+
+        // Incrementar el contador si todos los checkboxes están marcados
+        if (checkbox1Status == 1 && checkbox2Status == 1 && checkbox3Status == 1) {
+            daysCompleted++;
+        }
+
+        return daysCompleted;
+    }
 
     // Métodos getter para obtener los valores de los atributos
     public int getId() {

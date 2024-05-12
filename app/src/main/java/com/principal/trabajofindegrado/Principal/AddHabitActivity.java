@@ -202,12 +202,12 @@ public class AddHabitActivity extends AppCompatActivity {
     }
 
     /**
-     * Obtener la fecha actual en el formato yyyy-MM-dd.
+     * Obtener la fecha actual en el formato dd-MM-yyyy.
      *
      * @return Fecha actual en formato de cadena de caracteres
      */
     private String getCurrentDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         return sdf.format(new Date());
     }
 

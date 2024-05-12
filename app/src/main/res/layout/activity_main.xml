@@ -38,6 +38,22 @@
         android:layout_marginTop="12dp"
         android:layout_marginBottom="22dp" />
 
+    <!-- TextView para mostrar cuando no hay hábitos -->
+    <TextView
+        android:id="@+id/noHabitsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_below="@id/spinnerFilter"
+        android:layout_marginTop="130dp"
+        android:textSize="18dp"
+        android:layout_marginLeft="27dp"
+        android:layout_marginRight="27dp"
+        android:textAlignment="center"
+        android:text="No hay hábitos para hacer por el momento Añade un nuevo hábito para empezar con tu nueva rutina"
+        android:visibility="gone" />
+
     <!-- Layout para los botones en la parte inferior -->
     <LinearLayout
         android:id="@+id/bottomButtonsLayout"
